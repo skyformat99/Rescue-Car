@@ -1,4 +1,4 @@
-Title Knight Rider
+**Knight Rider**
 
 Jenny Kim
 Kenneth Mutethia
