@@ -1,16 +1,22 @@
 # Knight Rider
 
-Team Members: <\br>
-Jenny Kim
-Kenneth Mutethia
-Durga Ganesh
+##### Team Members
 
-Goal: Develop a rescue vehicle that can navigate and avoid obstacles.
+-Jenny Kim
+-Kenneth Mutethia
+-Durga Ganesh
 
-Milestones for T-1 week: Motor and TOF Sensor should be functional independently.
+##### Goal
 
-Resources Needed: 
-- Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
-- Motor Driver - $8
-- TOF Sensor or Ultrasonic Sensor
-- 9V Battery - $20
+Develop a rescue vehicle that can navigate and avoid obstacles.
+
+##### Milestones for T-1 week
+
+Motor and TOF Sensor should be functional independently.
+
+##### Resources Needed
+
+- [ ] Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
+- [ ] Motor Driver - $8
+- [ ] TOF Sensor or Ultrasonic Sensor
+- [ ] 9V Battery - $20
