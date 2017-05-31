@@ -1,6 +1,6 @@
-**Knight Rider**
+# Knight Rider
 
-Team Members:
+Team Members: <\br>
 Jenny Kim
 Kenneth Mutethia
 Durga Ganesh
