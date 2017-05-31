@@ -2,9 +2,9 @@
 
 ##### Team Members
 
--Jenny Kim
--Kenneth Mutethia
--Durga Ganesh
+- Jenny Kim
+- Kenneth Mutethia
+- Durga Ganesh
 
 ##### Goal
 
@@ -16,7 +16,7 @@ Motor and TOF Sensor should be functional independently.
 
 ##### Resources Needed
 
-- [ ] Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
-- [ ] Motor Driver - $8
-- [ ] TOF Sensor or Ultrasonic Sensor
-- [ ] 9V Battery - $20
+- [x] Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
+- [x] Motor Driver - $8
+- [x] TOF Sensor or Ultrasonic Sensor
+- [x] 9V Battery - $20
