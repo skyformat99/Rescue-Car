@@ -14,6 +14,10 @@ Develop a rescue vehicle that can navigate and avoid obstacles.
 
 Motor and TOF Sensor should be functional independently.
 
+##### Responsibility
+
+
+
 ##### Resources Needed
 
 - [x] Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
