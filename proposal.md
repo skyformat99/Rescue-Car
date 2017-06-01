@@ -16,7 +16,9 @@ Motor and TOF Sensor should be functional independently.
 
 ##### Responsibility
 
-
+- Jenny Kim : help both TOF and Motor
+- Kenneth Mutethia : be charge of Motor
+- Durga Ganesh : be charge of I2C protocol
 
 ##### Resources Needed
 
