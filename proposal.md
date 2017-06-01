@@ -17,6 +17,6 @@ Motor and TOF Sensor should be functional independently.
 ##### Resources Needed
 
 - [x] Double Drive 3 Rounds Smart Car Chasis with 2 Motors (we order) - $16
-- [x] Motor Driver - $8
+- [x] Motor Driver - $10
 - [x] TOF Sensor or Ultrasonic Sensor
 - [x] 9V Battery - $20
