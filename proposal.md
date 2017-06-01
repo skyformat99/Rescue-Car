@@ -12,13 +12,13 @@ Develop a rescue vehicle that can navigate and avoid obstacles.
 
 ##### Milestones for T-1 week
 
-Motor and TOF Sensor should be functional independently.
+Motor and TOF Sensor/Ultrasonic sensor should be functional independently.
 
 ##### Responsibility
 
-- Jenny Kim : help both TOF and Motor
-- Kenneth Mutethia : be charge of Motor
-- Durga Ganesh : be charge of I2C protocol
+- Jenny Kim : help with both TOF and Motor
+- Kenneth Mutethia : be in charge of Motor
+- Durga Ganesh : be in charge of I2C protocol for TOF
 
 ##### Resources Needed
 
