@@ -1,0 +1,1 @@
+void tof_init();

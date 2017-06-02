@@ -5,6 +5,8 @@
 #include "i2c.h"
 #include "timer.h"
 #include "printf.h"
+#include "gpioextra.h"
+#include "gpioevent.h"
 
 #define FSEL0  0x20200000
 #define FSEL1  0x20200004
@@ -22,22 +24,30 @@
 void tof_init(){
     
     // 1) apply power
-    gpio_set_output(GPIO_PIN4);
+    i2c_init();
+    gpio_set_input(GPIO_PIN4);
     //gpio_set_output(GPIO_PIN17);
-    gpio_pullup(GPIO_PIN4);
+    gpio_set_pullup(GPIO_PIN4);
+    //i2c_init();
     // 2) Set GPIO to '1' gpio_write
+    //gpio_set_function(GPIO_PIN4, 1);
     gpio_write(GPIO_PIN4, 1);
-    delay_ms(1);
-    int val = *((volatile int *)(SYSTEM_FRESH_OUT_OF_RESET));
+    printf("the value of pin 4 is %d", gpio_read(GPIO_PIN4));
+    delay_ms(2);
+    unsigned int val = *((volatile unsigned int *)(SYSTEM_FRESH_OUT_OF_RESET));
     printf("this is a value : %d", val);
     while(val!=1){
-        gpio_set_function(GPIO_PIN4, 0);
-        gpio_write(GPIO_PIN4, 0);
-        delay_ms(1);
+      //gpio_set_function(GPIO_PIN4, 0);
+      gpio_write(GPIO_PIN4, 0);
+        delay_ms(2);
         gpio_write(GPIO_PIN4, 1);
-        gpio_set_function(GPIO_PIN4, 1);
-        delay_ms(1);
+	//gpio_set_function(GPIO_PIN4, 1);
+        delay_ms(2);
+	printf("this is a value : %d", val);
+	val = *((volatile unsigned int *)(SYSTEM_FRESH_OUT_OF_RESET));
     }
+    
+    printf("done");
     // what does it mean to apply ?
     //gpio_pullup(GPIO_PIN17);
 }
