@@ -24,24 +24,21 @@
 
 void tof_init(){
     
-    gpio_set_input(GPIO_PIN4);
-    gpio_set_pullup(GPIO_PIN4);
+    // 1) apply power
     i2c_init();
+    gpio_set_input(GPIO_PIN4);
+    //gpio_set_output(GPIO_PIN17);
+    gpio_set_pullup(GPIO_PIN4);
+    // 2) Set GPIO to '1' gpio_write
+    //gpio_set_function(GPIO_PIN4, 1);
     gpio_write(GPIO_PIN4, 1);
-    gpio_set_function(GPIO_PIN4, 1);
+    //i2c_write();
+    printf("the value of pin 4 is %d", gpio_read(GPIO_PIN4));
     delay_ms(2);
-    char buf[9];
-    i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 9);
-    printf("%c", buf[0]);
-    //printf("this is a value : %d", buf);
-    /*while(buf[0]!=0x01){
-        gpio_write(GPIO_PIN4, 0);
-        delay_ms(2);
-        gpio_write(GPIO_PIN4, 1);
-        delay_ms(2);
-        i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
-        //printf("buffer: %c", buf);
-	}*/
+    char buf[1];
+    i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
+    printf("%c", buf);
+
 
     // the lines up there are def buggy
 
@@ -87,7 +84,7 @@ void tof_init(){
     WriteByte(0x01a7, 0x1f);
     WriteByte(0x0030, 0x00);
     // Recommended : Public registers - See data sheet for more detail
-    WriteByte(0x0011, 0x10); // Enables polling for â€˜New Sample readyâ€™
+    WriteByte(0x0011, 0x10); // Enables polling for œôòøNew Sample readyœôòù
     // when measurement completes
     WriteByte(0x010a, 0x30); // Set the averaging sample period
     // (compromise between lower noise and
@@ -105,8 +102,8 @@ void tof_init(){
     // period to 100ms
     WriteByte(0x003e, 0x31); // Set default ALS inter-measurement period
     // to 500ms
-    WriteByte(0x0014, 0x24); // Configures interrupt on â€˜New Sample
-    // Ready threshold eventâ€™
+    WriteByte(0x0014, 0x24); // Configures interrupt on œôòøNew Sample
+    // Ready threshold eventœôòù
 }
 
 void WriteByte(int address, int value){
