@@ -1,16 +1,17 @@
 NAME = main
 
-OBJECTS = 
+OBJECTS = motor.o
 #LIBPI_STUDENT_MODULES = timer.o gpio.o printf.o malloc.o backtrace.o
 
 CS107E=../cs107e.github.io
 
-CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Werror -Wpointer-arith 
-#CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Wpointer-arith
+#CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Werror -Wpointer-arith 
+CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Wpointer-arith
 CFLAGS += -Og -std=c99 -ffreestanding 
 CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name
 LDFLAGS = -nostdlib -T memmap -L$(CS107E)/libpi/lib
 LDLIBS = -lpi -lgcc
+
 
 all : $(NAME).bin $(LIBPI_STUDENT_MODULES)
 
