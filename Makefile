@@ -1,9 +1,9 @@
 NAME = main
 
-OBJECTS = motor.o
+OBJECTS = 
 #LIBPI_STUDENT_MODULES = timer.o gpio.o printf.o malloc.o backtrace.o
 
-CS107E=../cs107e.github.io
+CS107E=../../cs107e.github.io
 
 #CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Werror -Wpointer-arith 
 CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Wpointer-arith
