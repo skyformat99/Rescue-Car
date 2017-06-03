@@ -1,27 +1,9 @@
-//#include "gpio.h"
-//#include "motor.h"
-//#include "timer.h"
-//#include "printf.h"
- //#include "tof.h"
-
-
-/*
- * HC-SR04
-   http://www.modmypi.com/blog/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi
-   IMPORTANT. The sensor output signal (ECHO) on the HC-SR04 is rated
-   at 5V. However, the input pin on the Raspberry Pi GPIO is rated at
-   3.3V. Sending a 5V signal into that unprotected 3.3V input port could
-   damage your GPIO pins, which is something we want to avoid! We’ll
-   need to use a small voltage divider circuit, consisting of two
-   resistors, to lower the sensor output voltage to something our
-   Raspberry Pi can handle.
-   http://www.bytecreation.com/blog/2013/10/13/raspberry-pi-ultrasonic-sensor-hc-sr04
-*/
 
 #include "timer.h"
 #include "gpio.h"
 #include "gpioextra.h"
 #include "printf.h"
+#include "motor.h"
 
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
@@ -48,6 +30,9 @@ unsigned get_distance(void) {
 
 void main(void) {
   printf_init();
+    timer_init();
+    gpio_init();
+    motor_init();
 
   gpio_set_output(trigger);
   gpio_set_input(echo);
@@ -60,17 +45,3 @@ void main(void) {
     delay_ms(1000);
   }
 }
-
-/*void main() {
-  timer_init();
-  gpio_init();
-  printf_init();
-  //while(1) {
-    //cont_range();  
-  //}
-  while(1){
-    reverse_motion();
-    }
-  tof_init();
-  //printf("Hello, world!\n");
-}*/

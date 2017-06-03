@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> motor
 #define GPIO_FSEL4  ((unsigned int *)0x20200010)
 #define GPIO_SET1   ((unsigned int *)0x20200020)
 #define GPIO_CLR1   ((unsigned int *)0x2020002c)
@@ -17,6 +20,7 @@ extern void malloc_init(unsigned);
 // Turns on the green ACT LED when done, to show successful completion.
 // This function is called from start.s.
 void _cstart() {
+<<<<<<< HEAD
   int *bss = &__bss_start__;
   int *bss_end = &__bss_end__;
 
