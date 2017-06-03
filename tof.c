@@ -18,9 +18,14 @@
 #define LEVEL0 0x20200034
 #define LEVEL1 0x20200038
 
-//#define SCL GPIO_PIN3;
+int measure_status = 0; //set to 1 if want to start continuous range measurement
 #define SYSTEM_INTERRUPT_CONFIG_GPIO 0x0014
 #define SYSTEM_FRESH_OUT_OF_RESET 0x0016
+#define SYSRANGE_START 0x0018
+#define RESULT_RANGE_STATUS 0x4D //OPTIONAL
+#define RESULT_INTERRUPT_STATUS_GPIO 0x4F
+#define RESULT_RANGE_VAL 0x62
+#define SYSTEM_INTERRUPT_CLEAR 0x15
 
 void tof_init(){
     
@@ -30,31 +35,33 @@ void tof_init(){
     gpio_write(GPIO_PIN4, 1);
     gpio_set_function(GPIO_PIN4, 1);
     delay_ms(2);
-    char buf[9];
-    i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 9);
+    char buf[1]; //this prob should just be 1 as only need to store 1, which is less than 1 byte of info
+    i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
     printf("%c", buf[0]);
     //printf("this is a value : %d", buf);
-    /*while(buf[0]!=0x01){
+    while(buf[0]!=0x01){
         gpio_write(GPIO_PIN4, 0);
         delay_ms(2);
         gpio_write(GPIO_PIN4, 1);
         delay_ms(2);
         i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
         //printf("buffer: %c", buf);
-	}*/
+	}
 
-    // the lines up there are def buggy
-
-    //tof_settings();
-    
-
-
-
+    tof_settings();
+    buf[0] = 0x00;
+    i2c_write(SYSTEM_FRESH_OUT_OF_RESET, buf, 1); //host determines if settings loaded
     // what does it mean to apply ?
     //gpio_pullup(GPIO_PIN17);
 }
 
-/*static void tof_settings(){
+void WriteByte(int address, int value){
+    char buf[1];
+    buf[0] = value; //0xFF is max value, which is 255 in decimal and only requires one byte, so can store int value in char array's single slot direcly 
+    i2c_write(address, buf, 1);
+}
+
+static void tof_settings(){
     // Mandatory : private registers
     WriteByte(0x0207, 0x01);
     WriteByte(0x0208, 0x01);
@@ -109,7 +116,30 @@ void tof_init(){
     // Ready threshold event’
 }
 
-void WriteByte(int address, int value){
-    // what should we do here?!?!?!??!?!?1?!??1?!??!?!?!?
-    i2c_write(address, );
-}*/
+//https://www.pololu.com/file/download/AN4545.pdf?file_id=0J962
+static void cont_range() {
+  while (measure_status) { //want to continuously measure until we toggle off
+    char buf[1];
+    i2c_read(RESULT_RANGE_STATUS, buf, 1);
+    if ((buf[0] & 0x01) == 0) return; //error check, zeroth bit must be set
+    buf[0] = 0x03;
+    i2c_write(SYSRANGE_START, buf, 1);i
+
+    //wait for range measurement to complete
+    i2c_read(RESULTS_INTERRUPT_STATUS, buf, 1);
+    while (((buf[0] >> 2) & 0x01) != 0) i2c_read(RESULTS_INTERRUPT_STATUS, buf, 1);
+
+    //read range result, returned in milimeters
+    char result[2];
+    i2c_read(RESULT_RANGE_VAL, result, 1);
+    if (result[0] == 0) //valid measurement {
+    //do things with measured range (aka command motor appropriately), stored in result[1]
+  //}
+  }
+
+    //now done with range measurement
+    buf[0] = 0x07;
+    i2c_write(SYSTEM_INTERRUPT_CLEAR, buf, 1); //clear interrupt
+    buf[0] = 0x01;
+    i2c_write(SYSRANGE_START, buf, 1); //stop measurement
+}

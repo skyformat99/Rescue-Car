@@ -8,6 +8,9 @@ void main() {
   timer_init();
   gpio_init();
   printf_init();
+  while(1) {
+    cont_range();  
+  }
   /*while(1){
     reverse_motion();
     }*/
