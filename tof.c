@@ -27,38 +27,39 @@ int measure_status = 0; //set to 1 if want to start continuous range measurement
 #define RESULT_RANGE_VAL 0x62
 #define SYSTEM_INTERRUPT_CLEAR 0x15
 
-void tof_init(){
-    
-    gpio_set_input(GPIO_PIN4);
-    gpio_set_pullup(GPIO_PIN4);
-    i2c_init();
-    gpio_write(GPIO_PIN4, 1);
-    gpio_set_function(GPIO_PIN4, 1);
-    delay_ms(2);
-    char buf[1]; //this prob should just be 1 as only need to store 1, which is less than 1 byte of info
-    i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
-    printf("%c", buf[0]);
-    //printf("this is a value : %d", buf);
-    while(buf[0]!=0x01){
-        gpio_write(GPIO_PIN4, 0);
-        delay_ms(2);
-        gpio_write(GPIO_PIN4, 1);
-        delay_ms(2);
-        i2c_read(SYSTEM_FRESH_OUT_OF_RESET, buf, 1);
-        //printf("buffer: %c", buf);
-	}
+#define VL6180X 0x29
 
-    tof_settings();
-    buf[0] = 0x00;
-    i2c_write(SYSTEM_FRESH_OUT_OF_RESET, buf, 1); //host determines if settings loaded
-    // what does it mean to apply ?
-    //gpio_pullup(GPIO_PIN17);
+
+static void tof_settings();
+
+
+unsigned tof_read_reg(unsigned char reg) {
+    i2c_write(VL6180X, (void*) &reg, 1);
+    unsigned char uc = 0;
+    i2c_read(VL6180X, (void*) &uc, 1);
+    return uc;
 }
 
-void WriteByte(int address, int value){
-    char buf[1];
-    buf[0] = value; //0xFF is max value, which is 255 in decimal and only requires one byte, so can store int value in char array's single slot direcly 
-    i2c_write(address, buf, 1);
+void WriteByte(unsigned char reg, unsigned char v) {
+    char data[2] = {reg, v};
+    i2c_write(VL6180X, data, 2);
+}
+
+void tof_init(){
+    i2c_init();
+    //gpio_set_input(GPIO_PIN17);
+    gpio_set_output(GPIO_PIN17);
+    gpio_set_pullup(GPIO_PIN17);
+    gpio_set_pullup(GPIO_PIN2);
+    gpio_set_pullup(GPIO_PIN3);
+    gpio_write(GPIO_PIN17, 1);
+    gpio_set_function(GPIO_PIN17, 1);
+    delay_ms(2);
+    unsigned char uc = tof_read_reg(0x16);
+    printf("%c (%d)", uc);
+    printf("done");
+    tof_settings();
+    printf("done");
 }
 
 static void tof_settings(){
@@ -117,7 +118,7 @@ static void tof_settings(){
 }
 
 //https://www.pololu.com/file/download/AN4545.pdf?file_id=0J962
-static void cont_range() {
+/*static void cont_range() {
   while (measure_status) { //want to continuously measure until we toggle off
     char buf[1];
     i2c_read(RESULT_RANGE_STATUS, buf, 1);
@@ -142,4 +143,4 @@ static void cont_range() {
     i2c_write(SYSTEM_INTERRUPT_CLEAR, buf, 1); //clear interrupt
     buf[0] = 0x01;
     i2c_write(SYSRANGE_START, buf, 1); //stop measurement
-}
+}*/
