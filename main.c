@@ -57,7 +57,7 @@ void main(void) {
   while(1) {
     unsigned distance = get_distance();
     printf("distance = %d inches\n", distance);
-    delay_ms(1000);
+    delay_ms(1500);
   }
 }
 
