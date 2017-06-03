@@ -4,7 +4,7 @@
 #include "printf.h"
 #include "uart.h"
  
-void main() {
+int  main() {
 /*  uart_init();
   i2c_init();
   vl6180x_init();
@@ -16,4 +16,5 @@ void main() {
   // printf("sensor measurements");
   }
 */
+return 0;
 }
