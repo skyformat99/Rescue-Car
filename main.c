@@ -4,9 +4,12 @@
 #include "gpioextra.h"
 #include "printf.h"
 #include "motor.h"
+#include "circular.h"
+
 
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
+cir_t *cir;
 
 unsigned get_distance(void) {
   // write hi for 10usec
@@ -30,18 +33,27 @@ unsigned get_distance(void) {
 
 void main(void) {
   printf_init();
-    timer_init();
-    gpio_init();
-    motor_init();
-
+  timer_init();
+  gpio_init();
+  motor_init();
+  cir = cir_new(); // initialize circular buffer
   gpio_set_output(trigger);
   gpio_set_input(echo);
   gpio_set_pulldown(echo);
   delay_ms(40);
+  forward_motion();
 
   while(1) {
     unsigned distance = get_distance();
     printf("distance = %d inches\n", distance);
     delay_ms(1000);
+    if(distance<5){
+      reverse_motion();
+      delay_ms(2000);
+      right_turn(2000);
+      forward_motion();
+    }
   }
+  // stop at the very end
 }
+

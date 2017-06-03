@@ -47,9 +47,18 @@ void reverse_motion(){
   gpio_write(GPIO_PIN16, HIGH);
 }
 
-void left_turn(){
+void stop(){
+  gpio_write(GPIO_PIN20, LOW);
+  gpio_write(GPIO_PIN21, LOW);
+  gpio_write(GPIO_PIN19, LOW);
+  gpio_write(GPIO_PIN26, LOW);
+  gpio_write(GPIO_PIN13, LOW);
+  gpio_write(GPIO_PIN16, LOW);
+}
+
+void left_turn(int time_turn){
   int start_time = timer_get_time();
-  while(timer_get_time()-start_time<TIME_TURN){
+  while(timer_get_time()-start_time<time_turn){
     gpio_write(GPIO_PIN16, 1);
     gpio_write(GPIO_PIN13, 0);
     delay_ms(TURN_FIRST_DELAY);
@@ -59,9 +68,9 @@ void left_turn(){
   }
 }
 
-void right_turn(){
+void right_turn(int time_turn){
   int start_time = timer_get_time();
-  while(timer_get_time()-start_time<TIME_TURN){
+  while(timer_get_time()-start_time<time_turn){
     gpio_write(GPIO_PIN16, 0);
     gpio_write(GPIO_PIN13, 1);
     delay_ms(TURN_FIRST_DELAY);
