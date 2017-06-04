@@ -15,9 +15,7 @@ const unsigned echo = GPIO_PIN2;
 
 static stack[MAX_ELEM];
 static top = -1;
-// data structure:                                                              
-
-
+// data structure:                                                             
 
 int isEmpty(){
   return (top == -1);
