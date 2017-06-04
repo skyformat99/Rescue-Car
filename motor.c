@@ -21,9 +21,10 @@ void motor_init(){
   gpio_set_output(GPIO_PIN13);
   gpio_set_output(GPIO_PIN19);
   gpio_set_output(GPIO_PIN26);
-} 
+}
 
 void forward_motion(){
+  stop();
   gpio_write(GPIO_PIN20, HIGH);
   gpio_write(GPIO_PIN21, LOW);
   gpio_write(GPIO_PIN19, LOW);
@@ -33,6 +34,7 @@ void forward_motion(){
 }
 
 void reverse_motion(){
+  stop();
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, HIGH);
   gpio_write(GPIO_PIN19, HIGH);
@@ -51,6 +53,7 @@ void stop(){
 }
 
 void left_turn(int time_turn){
+  stop();
   int start_time = timer_get_time();
   while(timer_get_time()-start_time<time_turn){
     gpio_write(GPIO_PIN16, 1);
@@ -63,6 +66,7 @@ void left_turn(int time_turn){
 }
 
 void right_turn(int time_turn){
+  stop();
   int start_time = timer_get_time();
   while(timer_get_time()-start_time<time_turn){
     gpio_write(GPIO_PIN16, 0);
