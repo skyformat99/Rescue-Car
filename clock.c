@@ -76,7 +76,7 @@ static void displayDigit (unsigned int num, unsigned int pin) {
 /*
  * This static function sets all the pins controlling segments to input mode.
  */
-static void clearAll () {
+static void clearAll() {
    gpio_set_input(GPIO_PIN17);
    gpio_set_input(GPIO_PIN18);
    gpio_set_input(GPIO_PIN22);
@@ -91,7 +91,7 @@ static void clearAll () {
  * @param d1, d2, d3, d4 represent the bitwise patterns for each digit that should be displayed
  * @param delay_counter determines the length of time for which each four digit sequence is displayed
  */
-void displayTime (unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int delay_counter) { 
+void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int delay_counter) { 
    while (delay_counter > 0) {
 	gpio_set_input(GPIO_PIN9);
 	gpio_set_input(GPIO_PIN10);
@@ -172,7 +172,7 @@ void clock_run() {
 	        d2 = 0;
 	   }
 	   if (d1 == 10) break; 
-		displayTime(d1, d2, d3, d4, 100);
+		displayNum(d1, d2, d3, d4, 100);
 	}
    }
 }
