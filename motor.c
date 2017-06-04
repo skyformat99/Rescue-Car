@@ -13,7 +13,12 @@
 #include "timer.h"
 #include "motor.h"
 
-static int speed;
+#define LEFT 0
+#define REV 1
+#define FWD 2
+#define RIGHT 3
+
+//static int speed;
 static int dir;
 
 void motor_init(){
