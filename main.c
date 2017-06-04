@@ -63,24 +63,6 @@ int peek(){
     return stack[top];
 }
 
-
-void move(int i, int time){
-    if(i==0){
-        left_turn(time);
-    } else if(i==1){
-        reverse_motion();
-        delay_ms(time);
-    } else if(i==2){
-        forward_motion();
-        delay_ms(time);
-    } else if(i==3){
-        right_turn(time);
-    } else {
-        // throw error, should never come here
-    }
-}
-
-
 void main(void) {
     printf_init();
     timer_init();
