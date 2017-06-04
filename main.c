@@ -1,30 +1,14 @@
-//#include "gpio.h"
-//#include "motor.h"
-//#include "timer.h"
-//#include "printf.h"
- //#include "tof.h"
-
-
-/*
- * HC-SR04
-   http://www.modmypi.com/blog/hc-sr04-ultrasonic-range-sensor-on-the-raspberry-pi
-   IMPORTANT. The sensor output signal (ECHO) on the HC-SR04 is rated
-   at 5V. However, the input pin on the Raspberry Pi GPIO is rated at
-   3.3V. Sending a 5V signal into that unprotected 3.3V input port could
-   damage your GPIO pins, which is something we want to avoid! We’ll
-   need to use a small voltage divider circuit, consisting of two
-   resistors, to lower the sensor output voltage to something our
-   Raspberry Pi can handle.
-   http://www.bytecreation.com/blog/2013/10/13/raspberry-pi-ultrasonic-sensor-hc-sr04
-*/
 
 #include "timer.h"
 #include "gpio.h"
 #include "gpioextra.h"
 #include "printf.h"
+#include "motor.h"
 
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
+
+
 
 unsigned get_distance(void) {
   // write hi for 10usec
@@ -48,29 +32,37 @@ unsigned get_distance(void) {
 
 void main(void) {
   printf_init();
+    timer_init();
+    gpio_init();
+    motor_init();
 
   gpio_set_output(trigger);
   gpio_set_input(echo);
   gpio_set_pulldown(echo);
   delay_ms(40);
+  forward_motion();
 
   while(1) {
     unsigned distance = get_distance();
     printf("distance = %d inches\n", distance);
-    delay_ms(1500);
+    delay_ms(1000);
+    unsigned left_distance;
+    unsigned right_distance;
+    if(distance<5){
+      reverse_motion();
+      delay_ms(2000);
+      right_turn(2000);
+      right_distance = get_distance();
+      left_turn(2000);
+      left_turn(2000);
+      left_distance = get_distance();
+      if (left_distance < right_distance){
+	turn_right();
+	turn_right();
+      }
+      forward_motion();
+    }
   }
+  // stop at the very end
 }
 
-/*void main() {
-  timer_init();
-  gpio_init();
-  printf_init();
-  //while(1) {
-    //cont_range();  
-  //}
-  while(1){
-    reverse_motion();
-    }
-  tof_init();
-  //printf("Hello, world!\n");
-}*/
