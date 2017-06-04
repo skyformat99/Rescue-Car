@@ -63,6 +63,8 @@ int peek(){
     return stack[top];
 }
 
+/* Initialize distance and clock at beginning of main and run                                                                                                  display_distance() in forever while loop.*/
+
 void main(void) {
     printf_init();
     timer_init();
@@ -130,3 +132,41 @@ void main(void) {
     
     // stop at the very end
 }
+
+/* Initialize distance and clock at beginning of main and run
+display_distance() in forever while loop.*/
+/*void main(void) {
+  printf_init();
+    timer_init();
+    gpio_init();
+    motor_init();
+
+  gpio_set_output(trigger);
+  gpio_set_input(echo);
+  gpio_set_pulldown(echo);
+  delay_ms(40);
+  forward_motion();
+
+  while(1) {
+    unsigned distance = get_distance();
+    printf("distance = %d inches\n", distance);
+    delay_ms(1000);
+    unsigned left_distance;
+    unsigned right_distance;
+    if(distance<5){
+      reverse_motion();
+      delay_ms(2000);
+      right_turn(2000);
+      right_distance = get_distance();
+      left_turn(2000);
+      left_turn(2000);
+      left_distance = get_distance();
+      if (left_distance < right_distance){
+	turn_right();
+	turn_right();
+      }
+      forward_motion();
+    }
+  }
+  // stop at the very end
+}*/
