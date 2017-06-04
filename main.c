@@ -3,6 +3,7 @@
 #include "gpioextra.h"
 #include "printf.h"
 #include "motor.h"
+#include "audio_sensor.h"
 
 #define MAX_ELEM 100
 #define LEFTTURN 0
@@ -170,3 +171,12 @@ display_distance() in forever while loop.*/
   }
   // stop at the very end
 }*/
+
+
+
+
+
+
+  
+  
+
