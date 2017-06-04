@@ -7,30 +7,33 @@
 #include "timer.h"
 #include "stack.h"
 #include "motor.h"
+#include "armtimer.h"
 
 //measure time to travel 50cm--> quotient is rate
 #define TURN_SPEED 10; //get actual value
 #define STRAIGHT_SPEED 20; //get actual value
-#define LEFT 0
-#define REV 1
-#define FWD 2
-#define RIGHT 3
+#define DISTANCE_TIMER_INTERVAL 1000000 //1 second = 10^6 us
 
-unsigned int d1, d2, d3, d4; 
 int distance;
+unsigned int total_time; //in us
 unsigned int mov_time; //in us
 unsigned int prev_mov;
 
 void distance_init() {
-  d1 = d2 = d3 = d4 = 0; 
-  distance = 0;
-  mov_time = 0;
-  prev_mov = FWD; //assume 1st move is forward
+    distance = 0;
+    mov_time = 0;
+    total_time = 0;
+    prev_mov = FWD; //assume 1st move is forward
+    armtimer_init(DISTANCE_TIMER_INTERVAL);
+    armtimer_enable();
+    armtimer_enable_interrupt();
 }
 
-//return time in milliseconds
-unsigned int get_mov_time() {
-  return mov_time/1000;
+void distance_vector(unsigned pc) {
+    if (armtimer_check_interrupt()) {
+        compute_distance();       
+        armtimer_clear_interrupt();
+    }
 }
 
 //return time in move in milliseconds

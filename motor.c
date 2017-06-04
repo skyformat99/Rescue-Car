@@ -2,6 +2,7 @@
 #include "gpio.h"
 #include "timer.h"
 #include "motor.h"
+#include "led_lights.h"
 
 
 //static int speed;
@@ -12,8 +13,6 @@ int get_dir() {
 }
 
 void motor_init(){
-  // init speed, time, dir
-  //gpio_init();
   // for A
   gpio_set_output(GPIO_PIN16);
   gpio_set_output(GPIO_PIN20);
@@ -26,6 +25,7 @@ void motor_init(){
 
 void forward_motion(){
   stop();
+  signal_back(OFF);
   dir = FWD;
   gpio_write(GPIO_PIN20, HIGH);
   gpio_write(GPIO_PIN21, LOW);
@@ -37,6 +37,7 @@ void forward_motion(){
 
 void reverse_motion(){
   stop();
+  signal_back(ON);
   dir = REV;
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, HIGH);
@@ -47,6 +48,7 @@ void reverse_motion(){
 }
 
 void stop(){
+  signal_back(OFF);
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, LOW);
   gpio_write(GPIO_PIN19, LOW);
@@ -57,9 +59,11 @@ void stop(){
 
 void left_turn(int time_turn){
     stop();
+    signal_back(OFF);
     dir = LEFT;
     int start_time = timer_get_time();
   while(timer_get_time()-start_time<time_turn){
+    signal_left();
     gpio_write(GPIO_PIN16, 1);
     gpio_write(GPIO_PIN13, 0);
     delay_ms(TURN_FIRST_DELAY);
@@ -71,9 +75,11 @@ void left_turn(int time_turn){
 
 void right_turn(int time_turn){
     stop();
+    signal_back(OFF);
     dir = RIGHT;
     int start_time = timer_get_time();
   while(timer_get_time()-start_time<time_turn){
+    signal_right();
     gpio_write(GPIO_PIN16, 0);
     gpio_write(GPIO_PIN13, 1);
     delay_ms(TURN_FIRST_DELAY);

@@ -26,12 +26,15 @@ void clock_init() {
    array[7] = 0b00000111; 
    array[8] = 0b01111111;
    array[9] =  0b01101111; 
-   array[10] = 0b01110111; //10th-15th elements refer to A-F
-   array[11] =  0b01111100; 
-   array[12] =  0b00110011;
-   array[13] = 0b01011110;
-   array[14] =  0b01110011;
-   array[15] =  0b01110001;
+   array[10] = 0b01110111; //A
+   array[11] = 0b01111100; //B
+   array[12] = 0b00110011; //C
+   array[13] = 0b01011110; //D
+   array[14] = 0b01111001; //E
+   array[15] = 0b01110001; //F
+   array[16] = 0b01110110; //H
+   array[17] = 0b00111000; //L
+   array[18] = 0b01110011; //P
 }
 
 /*
@@ -118,6 +121,16 @@ void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int 
 
 	delay_counter--;
    }
+}
+
+void flashHelp() {
+    int c = 10;
+    while (c > 0) {
+        displayNum(16, 14, 17, 18, 40);
+        clearAll();
+        delay_us(120000);
+        c--;
+    }
 }
 
 /* This function runs the clock */

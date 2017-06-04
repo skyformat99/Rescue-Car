@@ -2,34 +2,45 @@
 #include "led_lights.h"
 #include "timer.h"
 
-
-#define ON 1
-#define OFF 0
+unsigned int left_pin, right_pin, back_pin;
 
 /*Initializes the LEDs*/
-void led_light_init(unsigned int left, unsigned int right){
+void led_light_init(unsigned int left, unsigned int right, unsigned int back){
   left_pin = left;
   right_pin = right;
+  back_pin = back;
   gpio_set_output(left_pin);
   gpio_set_output(right_pin);
+  gpio_set_output(back_pin);
 }
 
-void left_signal(){
-  gpio_write(left_pin, ON);
-  delay_ms(1);
-  gpio_write(left_pin, OFF);
+void signal(unsigned int pin){
+  gpio_write(pin, ON);
+  delay_ms(1000); //change value
+  gpio_write(pin, OFF);
+  delay_ms(1000); //change value
 }
-void right_signal(){
-  gpio_write(right_pin, ON);
-  delay_ms(1);
-  gpio_write(right_pin, OFF);
+
+void signal_left() {
+  signal(left_pin);
 }
+
+void signal_right() {
+  signal(right_pin);
+}
+
+void signal_back(int mode) {
+  gpio_write(back_pin, mode);
+}
+
+void alarm_pattern() {
+    //dim/undim if completely boxed in
+    return;
+}
+
+//////////////////////////////////////////////////
 void dance_pattern(){
 int counter = 0;
-// gpio_set_output(GPIO_PIN0);
-gpio_set_output(GPIO_PIN9);
-gpio_set_output(GPIO_PIN10);
-gpio_set_output(GPIO_PIN11);
 int prev_pin = GPIO_PIN11;
 while(1){
   int mode_of_num = counter%3;
@@ -51,8 +62,5 @@ void toggle_leds(unsigned int current_pin, unsigned int prev_pin){
   gpio_write(current_pin, ON);
   delay_ms(100);
   gpio_write(prev_pin, OFF);
-}
-void alarm_pattern(){
-return;
 }
 
