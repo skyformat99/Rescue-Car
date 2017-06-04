@@ -1,6 +1,6 @@
 NAME = main
 
-OBJECTS = tof.o
+OBJECTS = clock.o
 #LIBPI_STUDENT_MODULES = timer.o gpio.o printf.o malloc.o backtrace.o
 
 CS107E=../cs107e.github.io
