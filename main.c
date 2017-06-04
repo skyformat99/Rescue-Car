@@ -117,6 +117,7 @@ void main(void) {
         }
     }
     
+    // dequeue everything
     while(!isEmpty()){
         int num = pop();
         int mod = num % 10;
