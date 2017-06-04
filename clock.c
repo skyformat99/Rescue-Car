@@ -43,7 +43,31 @@ static void displayDigit (unsigned int num, unsigned int pin) {
    unsigned int j = 0;
    gpio_write(pin, 1);
    while (j < 8) { //go through each bit
-	if (num & 1) gpio_write(GPIO_PIN20 + j, num & 1); //mask all but last bit
+	if (num & 1) {
+            switch (j) {
+                case 0:      
+                    gpio_write(GPIO_PIN17, num & 1); //mask all but last bit
+                    break;
+                case 1:      
+                    gpio_write(GPIO_PIN18, num & 1); //mask all but last bit
+                    break;
+                case 2:      
+                    gpio_write(GPIO_PIN22, num & 1); //mask all but last bit
+                    break;
+                case 3:      
+                    gpio_write(GPIO_PIN23, num & 1); //mask all but last bit
+                    break;
+                case 4:      
+                    gpio_write(GPIO_PIN24, num & 1); //mask all but last bit
+                    break;
+                case 5:      
+                    gpio_write(GPIO_PIN25, num & 1); //mask all but last bit
+                    break;
+                case 6:      
+                    gpio_write(GPIO_PIN27, num & 1); //mask all but last bit
+                    break;
+            }
+        }
 	num = num >> 1; //right shift by 1
 	j++;
    }
@@ -53,45 +77,42 @@ static void displayDigit (unsigned int num, unsigned int pin) {
  * This static function sets all the pins controlling segments to input mode.
  */
 static void clearAll () {
-   gpio_set_input(GPIO_PIN20);
-   gpio_set_input(GPIO_PIN21);
+   gpio_set_input(GPIO_PIN17);
+   gpio_set_input(GPIO_PIN18);
    gpio_set_input(GPIO_PIN22);
    gpio_set_input(GPIO_PIN23);
    gpio_set_input(GPIO_PIN24);
    gpio_set_input(GPIO_PIN25);
-   gpio_set_input(GPIO_PIN26);
    gpio_set_input(GPIO_PIN27);
 }
-
-//function returning milliseconds of how long going in current direction
 
 /*
  * This static function displays the time on the clock at a particular rate.
  * @param d1, d2, d3, d4 represent the bitwise patterns for each digit that should be displayed
  * @param delay_counter determines the length of time for which each four digit sequence is displayed
  */
-static void displayTime (unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int delay_counter) { 
+void displayTime (unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int delay_counter) { 
    while (delay_counter > 0) {
+	gpio_set_input(GPIO_PIN9);
 	gpio_set_input(GPIO_PIN10);
 	gpio_set_input(GPIO_PIN11);
-	gpio_set_input(GPIO_PIN12);
   
-	displayDigit(array[d4], GPIO_PIN13);
-	delay_us(2500);
-	clearAll();
-
-	gpio_set_input(GPIO_PIN13);
-	displayDigit(array[d3], GPIO_PIN12);
+	displayDigit(array[d4], GPIO_PIN12);
 	delay_us(2500);
 	clearAll();
 
 	gpio_set_input(GPIO_PIN12);
-	displayDigit(array[d2], GPIO_PIN11);
+	displayDigit(array[d3], GPIO_PIN11);
 	delay_us(2500);
 	clearAll();
 
 	gpio_set_input(GPIO_PIN11);
-	displayDigit(array[d1], GPIO_PIN10);
+	displayDigit(array[d2], GPIO_PIN10);
+	delay_us(2500);
+	clearAll();
+
+	gpio_set_input(GPIO_PIN10);
+	displayDigit(array[d1], GPIO_PIN9);
 	delay_us(2500);
 	clearAll();
 
@@ -102,7 +123,6 @@ static void displayTime (unsigned int d1, unsigned int d2, unsigned int d3, unsi
 /* This function runs the clock */
 void clock_run() {
    while (1) { //forever loop that constantly runs the clock
-	gpio_write(GPIO_PIN27, 0); //for DP
 
 	unsigned int d1, d2, d3, d4; 
 	d1 = 0;
