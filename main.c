@@ -90,8 +90,8 @@ void main(void) {
             left_turn(2000);
             left_distance = get_distance();
             if (left_distance < right_distance){
-                turn_right();
-                turn_right();
+                right_turn(2000);
+                right_turn(2000);
             }
             forward_motion();
         }
