@@ -6,6 +6,7 @@
 #include "gpio.h"
 #include "timer.h"
 #include "stack.h"
+#include "motor.h"
 
 //measure time to travel 50cm--> quotient is rate
 #define TURN_SPEED 10; //get actual value
@@ -42,8 +43,8 @@ static unsigned int time_in_move() {
 }
 
 void compute_distance() {
-  if ((peek() % 10 == FWD) || (peek() % 10 == REV)) distance += mov_time*STRAIGHT_RATE
-  else if ((peek() % 10 == LEFT) || (peek() % 10 == RIGHT)) distance += mov_time*TURN_RATE;
+  if ((get_dir() == FWD) || (get_dir() == REV)) distance += mov_time*STRAIGHT_RATE
+  else if ((get_dir() == LEFT) || (get_dir() == RIGHT)) distance += mov_time*TURN_RATE;
 }
 
 void display_distance() { 
