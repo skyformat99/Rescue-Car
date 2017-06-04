@@ -68,6 +68,9 @@ void main(void) {
     timer_init();
     gpio_init();
     motor_init();
+    int mod;
+    int input;
+    int time = 2000; // change later
     
     gpio_set_output(trigger);
     gpio_set_input(echo);
@@ -83,7 +86,12 @@ void main(void) {
         unsigned right_distance;
         if(distance<5){
             reverse_motion();
-            delay_ms(2000);
+            delay_ms(time);
+            // enqueue reverse motion
+            mod = REVERSE;
+            time = 2000;
+            input = mod + time * 10;
+            push(input);
             right_turn(2000);
             right_distance = get_distance();
             left_turn(2000);
@@ -92,26 +100,23 @@ void main(void) {
             if (left_distance < right_distance){
                 right_turn(2000);
                 right_turn(2000);
+                // enqueue right turn cuz we are only right-turning
+                mod = RIGHTTURN;
+                time = 2000;
+                input = mod + time * 10;
+                push(input);
+            } else {
+                // enqueue left turn cuz we are only left-turning
+                mod = LEFTTURN;
+                time = 2000;
+                input = mod + time * 10;
+                push(input);
             }
             forward_motion();
+            // get time and enqueue forward motion
         }
     }
-    int mod = FORWARD;
-    int time = 10;
-    int input = mod + time * 10;
-    push(input);
-    mod = REVERSE;
-    time = 20;
-    input = mod + time * 10;
-    push(input);
-    mod = LEFTTURN;
-    time = 30;
-    input = mod + time * 10;
-    push(input);
-    mod = RIGHTTURN;
-    time = 40;
-    input = mod + time * 10;
-    push(input);
+    
     while(!isEmpty()){
         int num = pop();
         int mod = num % 10;
