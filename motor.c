@@ -1,4 +1,10 @@
-W 0
+// set all the pins to be outputs
+// pin for motor A dir1, dir2, speed, motor B dir1, dir2, speed
+
+// GPIO 16 SPEED 20 DIR1 21 DIR2 A
+// GPIO 13 SPEED 19 DIR1 26 DIR2 B
+/*#define HIGH 1
+#define LOW 0
 #define TIME_TURN 10000000
 #define TURN_FIRST_DELAY 100
 #define TURN_SECOND_DELAY 10*/
@@ -77,4 +83,3 @@ void right_turn(int time_turn){
     delay_ms(TURN_SECOND_DELAY);
   }
 }
-

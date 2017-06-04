@@ -8,8 +8,6 @@
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
 
-
-
 unsigned get_distance(void) {
   // write hi for 10usec
   gpio_write(trigger, 1);
@@ -30,6 +28,8 @@ unsigned get_distance(void) {
   return (end - start) / 149;
 }
 
+/* Initialize distance and clock at beginning of main and run
+display_distance() in forever while loop.*/
 void main(void) {
   printf_init();
     timer_init();
