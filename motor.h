@@ -9,3 +9,4 @@ void forward_motion();
 void reverse_motion();
 void left_turn();
 void right_turn();
+void move(int i, int time);
