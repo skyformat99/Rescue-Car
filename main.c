@@ -13,30 +13,38 @@
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
 
-// https://www.tutorialspoint.com/javaexamples/data_stack.htm source referred
 static stack[MAX_ELEM];
 static top = -1;
-// data structure:
+// data structure:                                                              
+
+
 
 int isEmpty(){
-    return (top == -1);
+  return (top == -1);
 }
 
 int isFull(){
-    return (top == MAX_ELEM-1);
+  return (top == MAX_ELEM-1);
 }
 
 int push(int i){
-    stack[++top] = i;
+  stack[++top] = i;
 }
 
 int pop(){
-    return stack[top--];
+  return stack[top--];
 }
 
 int peek(){
-    return stack[top];
+  return stack[top];
 }
+
+
+
+// https://www.tutorialspoint.com/javaexamples/data_stack.htm source referred
+// http://www.sanfoundry.com/c-program-stack-implementation/
+
+/* Should replace it with other things */
 
 void move(int i, int time){
     if(i==0){
