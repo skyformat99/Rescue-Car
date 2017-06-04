@@ -63,6 +63,8 @@ static void clearAll () {
    gpio_set_input(GPIO_PIN27);
 }
 
+//function returning milliseconds of how long going in current direction
+
 /*
  * This static function displays the time on the clock at a particular rate.
  * @param d1, d2, d3, d4 represent the bitwise patterns for each digit that should be displayed
