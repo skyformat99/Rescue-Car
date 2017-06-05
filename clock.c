@@ -12,7 +12,7 @@
 #define CLR0  ((volatile unsigned int *)0x20200028) //Address of CLR0 register
 #define LEV0  ((volatile unsigned int *)0x20200034) //Address of LEV0 register
 
-char array[16]; //bit patterns for 0-9, A-F (b and d are lowercase)
+char array[19]; //bit patterns for 0-9, A-F (b and d are lowercase)
 
 /* Performs initialization of the array containing bitwise pattern for digits and characters. */
 void clock_init() {

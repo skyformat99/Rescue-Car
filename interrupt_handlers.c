@@ -1,9 +1,12 @@
 /* Interrupt Handlers */
 
 extern void distance_vector(unsigned pc);
+extern void audio_sensor_vector(unsigned pc);
 
 void interrupt_vector(unsigned pc) {
+    printf( "in handler \n");
     distance_vector(pc);
+    audio_sensor_vector(pc);
 }
 
 // The rest of these should never be called
