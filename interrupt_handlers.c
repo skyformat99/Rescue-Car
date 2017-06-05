@@ -1,7 +1,6 @@
 /* Interrupt Handlers */
 
-extern void keyboard_vector(unsigned pc);
-extern void gprof_vector(unsigned pc);
+extern void distance_vector(unsigned pc);
 
 void interrupt_vector(unsigned pc) {
     distance_vector(pc);

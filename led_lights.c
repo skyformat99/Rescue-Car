@@ -5,7 +5,7 @@
 unsigned int left_pin, right_pin, back_pin;
 
 /*Initializes the LEDs*/
-void led_light_init(unsigned int left, unsigned int right, unsigned int back){
+void led_lights_init(unsigned int left, unsigned int right, unsigned int back){
   left_pin = left;
   right_pin = right;
   back_pin = back;
@@ -39,7 +39,7 @@ void alarm_pattern() {
 }
 
 //////////////////////////////////////////////////
-void dance_pattern(){
+/*void dance_pattern(){
 int counter = 0;
 int prev_pin = GPIO_PIN11;
 while(1){
@@ -56,8 +56,8 @@ while(1){
   }
   printf("Previus pin%d\n",prev_pin );
 counter++;
-}
-}
+}*
+}*/
 void toggle_leds(unsigned int current_pin, unsigned int prev_pin){
   gpio_write(current_pin, ON);
   delay_ms(100);

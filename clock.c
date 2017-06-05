@@ -134,7 +134,7 @@ void flashHelp() {
 }
 
 /* This function runs the clock */
-void clock_run() {
+/*void clock_run() {
    while (1) { //forever loop that constantly runs the clock
 
 	unsigned int d1, d2, d3, d4; 
@@ -188,4 +188,4 @@ void clock_run() {
 		displayNum(d1, d2, d3, d4, 100);
 	}
    }
-}
+}*/

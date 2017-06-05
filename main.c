@@ -1,13 +1,21 @@
-
+#include "interrupts.h"
 #include "timer.h"
 #include "gpio.h"
 #include "gpioextra.h"
 #include "printf.h"
 #include "motor.h"
+#include "path.h"
+#include "distance.h"
+#include "led_lights.h"
+
+extern void clock_init();
+extern int top;
+extern int stack[128];
 
 const unsigned trigger = GPIO_PIN3;
 const unsigned echo = GPIO_PIN2;
 
+//ultrasonic sensor
 unsigned get_distance(void) {
   // write hi for 10usec
   gpio_write(trigger, 1);
@@ -16,12 +24,10 @@ unsigned get_distance(void) {
 
   unsigned start = timer_get_time();
   delay_us(149); // wait til device settles: 148 = time to go one inch
-  while(!gpio_read(echo))
-    ;
+  while(!gpio_read(echo));
 
   unsigned end;
-  while(gpio_read(echo) == 1)
-    ;
+  while(gpio_read(echo) == 1);
   end = timer_get_time();
 
   // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec
@@ -31,12 +37,18 @@ unsigned get_distance(void) {
 /* Initialize distance and clock at beginning of main and run
 display_distance() in forever while loop.*/
 void main(void) {
-  printf_init();
-    timer_init();
-    gpio_init();
+    system_enable_interrupts();
     motor_init();
-
-  gpio_set_output(trigger);
+    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
+    clock_init();
+    distance_init();
+    while (1) {
+        if (!isEmpty()) {
+        for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
+        } 
+    }
+ 
+/*  gpio_set_output(trigger);
   gpio_set_input(echo);
   gpio_set_pulldown(echo);
   delay_ms(40);
@@ -63,6 +75,6 @@ void main(void) {
       forward_motion();
     }
   }
-  // stop at the very end
+  // stop at the very end*/
 }
 

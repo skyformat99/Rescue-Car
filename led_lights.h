@@ -4,11 +4,11 @@
 #define ON 1
 #define OFF 0
 
-void led_light_init(unsigned int left, unsigned int right);
-void left_signal();
-void right_signal();
+void led_lights_init(unsigned int left, unsigned int right, unsigned int back);
+void signal_left();
+void signal_right();
+void signal_back(int mode);
 void toggle_leds(unsigned int current_pin, unsigned int prev_pin);
 void dance_pattern();
-void alarm_pattern();
-~                   
+void alarm_pattern();                   
 #endif   
