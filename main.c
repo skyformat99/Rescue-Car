@@ -17,11 +17,12 @@ extern int stack[128];
 /* Initialize distance and clock at beginning of main and run
 display_distance() in forever while loop.*/
 void main(void) {
-    system_enable_interrupts();
-    clock_init();
-    motor_init();
     distance_init();
-    audio_sensor_init();
+//    clock_init();
+    system_enable_interrupts();
+//    motor_init();
+  //  flashHelp();
+/*    audio_sensor_init();
     ultrasonic_init();
     led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
     forward_motion();
@@ -45,10 +46,10 @@ void main(void) {
                 right_turn(10);//update time from test
             }
             forward_motion();
-       }
- //    if (!isEmpty()) {
-     //   for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
-      //  } 
-    }
+       }*/
+     if (!isEmpty()) {
+        for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
+        } 
+   // }
 }
 
