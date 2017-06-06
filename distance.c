@@ -8,15 +8,17 @@
 #include "path.h"
 #include "motor.h"
 #include "armtimer.h"
+#include "interrupts.h"
 #include "printf.h"
 
 //measure time to travel 50cm--> quotient is rate
 #define TURN_SPEED 10; //get actual value
 #define STRAIGHT_SPEED 20; //get actual value
-#define DISTANCE_TIMER_INTERVAL 0x10 //set to 1 second = 10^6 us
+#define DISTANCE_TIMER_INTERVAL 0x100000 //set to 1 second = 10^6 us
 
-extern int stack[1024];
-extern int top;
+//extern int stack[1024];
+//extern int top;
+int c = 0;
 
 extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
@@ -32,11 +34,10 @@ void distance_init() {
     total_time = 0;
     prev_time = timer_get_time()/1000;
     prev_mov = FWD; //assume 1st move is forward
-//    system_enable_interrupts();
     armtimer_init(DISTANCE_TIMER_INTERVAL);
     armtimer_enable();
     armtimer_enable_interrupt();
-    printf("init enabled \n");
+    interrupts_enable_basic(INTERRUPTS_BASIC_ARM_TIMER_IRQ); 
 }
 
 unsigned int get_dist() {
@@ -44,9 +45,7 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-//  stack[top] = 1; top++;
-//  test[i] = 1;
-//  i++;
+    c++; printf("%d", c);
 /*    int cur_time = timer_get_time()/1000;
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
@@ -59,14 +58,12 @@ void compute_distance() {
         total_time = cur_time - prev_time;
     } else total_time += cur_time - prev_time;
     prev_time = cur_time;*/
-//    printf("c");
 }
 
 void distance_vector(unsigned pc) {
-//    printf("d");
     if (armtimer_check_interrupt()) {
-  //      compute_distance();       
-        top++; stack[top] = 1;
+        compute_distance();       
+  //      top++; stack[top] = 1;
         armtimer_clear_interrupt();
     }
 }

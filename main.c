@@ -21,7 +21,7 @@ extern int c;
 /* Initialize distance and clock at beginning of main and run
 display_distance() in forever while loop.*/
 void main(void) {
-    clock_init();
+//    clock_init();
 //    flashHelp();
 //    motor_init();
     distance_init();
@@ -54,9 +54,9 @@ void main(void) {
   printf("all enabled \n");
   while (1) {
     // if (!isEmpty()) {
-//       printf("%d", c);
-       for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]); }
-    //  } 
+       printf("%d", c);
+     //  for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);}
+      } 
    // }
 }
 
