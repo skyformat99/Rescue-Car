@@ -12,11 +12,11 @@ int get_dir() {
 }
 
 void motor_init(){
-  // for A
+  // for A right
   gpio_set_output(GPIO_PIN16);
   gpio_set_output(GPIO_PIN20);
   gpio_set_output(GPIO_PIN21);
-  // for B
+  // for B left
   gpio_set_output(GPIO_PIN13);
   gpio_set_output(GPIO_PIN19);
   gpio_set_output(GPIO_PIN26);
@@ -47,6 +47,7 @@ void reverse_motion(){
 }
 
 void stop(){
+  //write 0 to center 2 pins
   signal_back(OFF);
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, LOW);

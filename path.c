@@ -1,4 +1,3 @@
-#define MAX_ELEM 128
 // data structure:
 
 /*typedef volatile struct stack stack_t;
@@ -10,6 +9,7 @@ eue (remove) an element,
     int top;
 };*/
 
+#define MAX_ELEM 128
 int stack[MAX_ELEM];
 int top = -1;
 
