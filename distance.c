@@ -5,53 +5,67 @@
 #include "clock.h"
 #include "gpio.h"
 #include "timer.h"
-#include "stack.h"
+#include "path.h"
+#include "motor.h"
+#include "armtimer.h"
+#include "printf.h"
 
-#define TURN_RATE = 10; //get actual value
-#define STRAIGHT_RATE = 20; //get actual value
+//measure time to travel 50cm--> quotient is rate
+#define TURN_SPEED 10; //get actual value
+#define STRAIGHT_SPEED 20; //get actual value
+#define DISTANCE_TIMER_INTERVAL 0x20 //set to 1 second = 10^6 us
 
-unsigned int d1, d2, d3, d4; 
-int distance;
-unsigned int mov_time; //in us
-unsigned int prev_mov;
+extern void displayNum(int d1, int d2, int d3, int d4, int c);
+
+static unsigned int distance;
+static unsigned int total_time; //in us
+static unsigned int mov_time; //in us
+static unsigned int prev_mov;
+static unsigned int prev_time;
 
 void distance_init() {
-  d1 = d2 = d3 = d4 = 0; 
   distance = 0;
   mov_time = 0;
-  prev_mov = 2; //assume 1st move is forward
+  total_time = 0;
+  prev_time = timer_get_time()/1000;
+  prev_mov = FWD; //assume 1st move is forward
+  armtimer_init(DISTANCE_TIMER_INTERVAL);
+  armtimer_enable();
+  armtimer_enable_interrupt();
 }
 
-//return time in milliseconds
-unsigned int get_mov_time() {
-  return mov_time/1000;
-}
-
-//return time in move in milliseconds
-static unsigned int time_in_move() {
-  unsigned int time = timer_get_time();
-  mov_time = 0;
-  while (peek() == prev_mov) mov_time = (timer_get_time() - time)/1000;
-  prev_mov = peek();
-  return (timer_get_time() - time)/1000;
+unsigned int get_dist() {
+  return distance;
 }
 
 void compute_distance() {
-  if ((peek() % 10 == 2) || (peek() % 10 == 1)) distance += mov_time*STRAIGHT_RATE
-  else if ((peek() % 10 == 0) || (peek() % 10 == 3)) distance += mov_time*TURN_RATE;
+  int cur_time = timer_get_time()/1000;
+  int cur_mov = get_dir();
+  if ((cur_mov == FWD) || (cur_mov == REV)) {
+    distance += (cur_time - prev_time)*STRAIGHT_SPEED;
+  } else {
+    distance += (cur_time - prev_time)*TURN_SPEED;
+  }
+  if (cur_mov != prev_mov) {
+    push((total_time*10)+prev_mov);
+    total_time = cur_time - prev_time;
+  } else total_time += cur_time - prev_time;
+  prev_time = cur_time;
+  printf("in compute distance \n");
+}
+
+void distance_vector(unsigned pc) {
+  printf(" pls say yes \n");
+  if (armtimer_check_interrupt()) {
+    compute_distance();       
+    armtimer_clear_interrupt();
+  }
 }
 
 void display_distance() { 
-  gpio_write(GPIO_PIN27, 0); //for DP
-  int prev_distance = 0;   
-  while (prev_mov == peek()) displayTime(d1, d2, d3, d4, 1); //Display current distance repeatedly
-  int prev_dist = compute_distance();
-  if (prev_dist > 1000) {
-    prev_dist -= 1000;  
-  }
-  d4 = prev_dist % 10;
-  d3 = (prev_dist/10) % 10;
-  d2 = (prev_dist/100) % 10;
-  d1 = prev_dist/1000;
-  displayTime(d1, d2, d3, d4, 1);
+  int d4 = distance % 10;
+  int d3 = (distance/10) % 10;
+  int d2 = (distance/100) % 10;
+  int d1 = distance/1000;
+  displayNum(d1, d2, d3, d4, 10);
 }

@@ -8,9 +8,13 @@
 
 extern int __bss_start__;
 extern int __bss_end__;
+extern int _vectors;
+extern int _vectors_end;
 
 extern void main();
 extern void malloc_init(unsigned);
+
+#define RPI_VECTOR_START 0x0
 
 // Zeroes out the BSS before calling main.
 // Turns on the green ACT LED when done, to show successful completion.
@@ -22,6 +26,17 @@ void _cstart() {
   while (bss < bss_end) {
     *bss++ = 0;
   }
+
+    /*
+    * Copy in interrupt vector and FIQ handler _vector and _vector_end are
+    * symbols defined in the interrupt assembly file, at the beginning and end of
+    * the vector and its embedded constants.
+    */
+    int *vectorsdst = (int *)RPI_VECTOR_START;
+    int *vectors = &_vectors;
+    int *vectors_end = &_vectors_end;
+    while (vectors < vectors_end)
+        *vectorsdst++ = *vectors++;
 
   malloc_init(0x4000000);
   main();
