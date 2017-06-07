@@ -18,7 +18,7 @@
 
 //extern int stack[1024];
 //extern int top;
-int c = 0;
+//int c = 0;
 
 extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
@@ -45,8 +45,8 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-    c++; printf("%d", c);
-/*    int cur_time = timer_get_time()/1000;
+//    c++; printf("%d", c);
+    int cur_time = timer_get_time()/1000;
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
         distance += (cur_time - prev_time)*STRAIGHT_SPEED;
@@ -57,7 +57,7 @@ void compute_distance() {
         push((total_time*10)+prev_mov);
         total_time = cur_time - prev_time;
     } else total_time += cur_time - prev_time;
-    prev_time = cur_time;*/
+    prev_time = cur_time;
 }
 
 void distance_vector(unsigned pc) {
