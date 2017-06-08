@@ -26,38 +26,31 @@ void main(void) {
     motor_init();
     distance_init();
     system_enable_interrupts();
-    audio_sensor_init();
+//    audio_sensor_init();
     ultrasonic_init();
-    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
-    forward_motion();
+//    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
+//    forward_motion();
     while (1) {
-        unsigned distance = get_distance();
+/*        unsigned distance = get_distance();
         printf("distance = %d inches\n", distance);
         delay_us(1000);
         unsigned left_distance;
-        unsigned right_distance;
+        unsigned right_distance;*/
         display_distance();
-        if (distance < 5) {
+ /*       if (distance < 5) {
             reverse_motion();
             delay_us(2000);
-            right_turn(2000);
+            right_turn(650);
             right_distance = get_distance();
-            left_turn(2000);
-            left_turn(2000);
+            left_turn(650);
+            left_turn(650);
             left_distance = get_distance();
             if (left_distance < right_distance){
-                right_turn(10);//update time from test
-                right_turn(10);//update time from test
+                right_turn(650);
+                right_turn(650);
             }
             forward_motion();
-        }
+        }*/
     }
-//  printf("all enabled \n");
-//  while (1) {
-    // if (!isEmpty()) {
-//       printf("%d", c);
-     //  for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);}
-  //    } 
-   // }
 }
 

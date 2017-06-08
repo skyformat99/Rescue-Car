@@ -12,7 +12,7 @@
 #include "printf.h"
 
 //measure time to travel 50cm--> quotient is rate
-#define TURN_SPEED 7.854; //get actual value
+#define TURN_SPEED 12.1; //get actual value
 #define STRAIGHT_SPEED 14.5; //get actual value
 #define DISTANCE_TIMER_INTERVAL 0x100000 //set to 1 second = 10^6 us
 
@@ -45,8 +45,9 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-//    c++; printf("%d", c);
-    int cur_time = timer_get_time()/1000;
+    distance++;
+    printf("distance is %d \n", distance);
+/*    int cur_time = timer_get_time()/1000;
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
         distance += (cur_time - prev_time)*STRAIGHT_SPEED;
@@ -57,7 +58,7 @@ void compute_distance() {
         push((total_time*10)+prev_mov);
         total_time = cur_time - prev_time;
     } else total_time += cur_time - prev_time;
-    prev_time = cur_time;
+    prev_time = cur_time;*/
 }
 
 void distance_vector(unsigned pc) {
