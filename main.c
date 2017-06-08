@@ -4,6 +4,7 @@
 //#include "printf.h"
 #include "motor.h"
 #include "printf.h"
+#include "sensor.h"
 //#include "circular.h"
 //#include "ultrasonic.h"
 //#include "sensor.h"
@@ -15,7 +16,7 @@ static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
 
-void ultrasonic_init() {
+/*void ultrasonic_init() {
   gpio_set_output(trigger);
   gpio_set_input(echo);
   gpio_set_pulldown(echo);
@@ -38,7 +39,7 @@ unsigned get_distance(void) {
    end = timer_get_time();
    // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec                
    return (end - start) / 149;
-}            
+}            */
 
 void main(void){
   gpio_init();
@@ -74,7 +75,7 @@ void main(void){
     unsigned left_distance;
     unsigned right_distance;
     //    display_distance();
-    if (distance < 5) {
+    if (distance < 20) {
       // reverse_motion();
       // delay_ms(2000);
       right_turn(2000);
