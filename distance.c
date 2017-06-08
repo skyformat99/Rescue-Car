@@ -12,8 +12,8 @@
 #include "printf.h"
 
 //measure time to travel 50cm--> quotient is rate
-#define TURN_SPEED 10; //get actual value
-#define STRAIGHT_SPEED 20; //get actual value
+#define TURN_SPEED 7.854; //get actual value
+#define STRAIGHT_SPEED 14.5; //get actual value
 #define DISTANCE_TIMER_INTERVAL 0x100000 //set to 1 second = 10^6 us
 
 //extern int stack[1024];
