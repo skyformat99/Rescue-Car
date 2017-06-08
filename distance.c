@@ -45,7 +45,6 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-    distance++;
     int cur_time = timer_get_time()/1000;
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
@@ -58,7 +57,7 @@ void compute_distance() {
         total_time = cur_time - prev_time;
     } else total_time += cur_time - prev_time;
     prev_time = cur_time;
-    printf("distance is %d \n", distance);
+//    printf("distance is %d \n", distance);
 }
 
 void distance_vector(unsigned pc) {

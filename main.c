@@ -33,7 +33,7 @@ void main(void) {
 //    forward_motion();
     while (1) {
         unsigned distance = get_distance();
-        printf("distance = %d inches\n", distance);
+//        printf("distance = %d inches\n", distance);
         delay_ms(5000);
         unsigned left_distance;
         unsigned right_distance;
