@@ -46,8 +46,7 @@ unsigned int get_dist() {
 
 void compute_distance() {
     distance++;
-    printf("distance is %d \n", distance);
-/*    int cur_time = timer_get_time()/1000;
+    int cur_time = timer_get_time()/1000;
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
         distance += (cur_time - prev_time)*STRAIGHT_SPEED;
@@ -58,13 +57,13 @@ void compute_distance() {
         push((total_time*10)+prev_mov);
         total_time = cur_time - prev_time;
     } else total_time += cur_time - prev_time;
-    prev_time = cur_time;*/
+    prev_time = cur_time;
+    printf("distance is %d \n", distance);
 }
 
 void distance_vector(unsigned pc) {
     if (armtimer_check_interrupt()) {
         compute_distance();       
-  //      top++; stack[top] = 1;
         armtimer_clear_interrupt();
     }
 }

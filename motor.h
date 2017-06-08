@@ -3,9 +3,9 @@
 
 // GPIO 16 SPEED 20 DIR1 21 DIR2 A
 // GPIO 13 SPEED 19 DIR1 26 DIR2 B
-#define TIME_TURN 10000000
-#define TURN_FIRST_DELAY 100 //calculate with car
-#define TURN_SECOND_DELAY 10 //calculate with car
+//#define TIME_TURN 10000000
+//#define TURN_FIRST_DELAY 100 //calculate with car
+//#define TURN_SECOND_DELAY 10 //calculate with car
 
 #define HIGH 1
 #define LOW 0

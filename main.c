@@ -24,6 +24,7 @@ void main(void) {
     clock_init();
 //    flashHelp();
     motor_init();
+    printf_init();
     distance_init();
     system_enable_interrupts();
 //    audio_sensor_init();
@@ -31,13 +32,13 @@ void main(void) {
 //    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
 //    forward_motion();
     while (1) {
-/*        unsigned distance = get_distance();
+        unsigned distance = get_distance();
         printf("distance = %d inches\n", distance);
-        delay_us(1000);
+        delay_ms(5000);
         unsigned left_distance;
-        unsigned right_distance;*/
-        display_distance();
- /*       if (distance < 5) {
+        unsigned right_distance;
+//        display_distance();
+        if (distance < 10) {
             reverse_motion();
             delay_us(2000);
             right_turn(650);
@@ -50,7 +51,7 @@ void main(void) {
                 right_turn(650);
             }
             forward_motion();
-        }*/
+        }
     }
 }
 
