@@ -23,24 +23,21 @@ void ultrasonic_init() {
 }
 
 unsigned get_distance(void) {       
-   printf("%s\n", "Inside dist");                                                                                                                                                 
-  // write hi for 10usec                                                                                                                                                             
-  gpio_write(trigger, 1);                                                                                                                                                            
-  delay_us(10);                                                                                                                                                                      
-  gpio_write(trigger, 0);                                                                                                                                                            
-                                                                                                                                                                                     
-  unsigned start = timer_get_time();                                                                                                                                                 
-  delay_us(149); // wait til device settles: 148 = time to go one inch                                                                                                               
-  while(!gpio_read(echo))                                                                                                                                                            
-    ;                                                                                                                                                                                
-                                                                                                                                                                                     
-  unsigned end;                                                                                                                                                                      
-  while(gpio_read(echo) == 1)                                                                                                                                                        
-    ;                                                                                                                                                                                
-  end = timer_get_time();                                                                                                                                                            
-                                                                                                                                                                                     
-  // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec                                                                                                                           
-  return (end - start) / 149;                                                                                                                                                        
+   printf("%s\n", "Inside dist");                                      
+   // write hi for 10usec                                                 
+   gpio_write(trigger, 1);                                                
+   delay_us(10);                                                          
+   gpio_write(trigger, 0);                                               
+   unsigned start = timer_get_time();                       
+   delay_us(149); // wait til device settles: 148 = time to go one inch    
+   while(!gpio_read(echo))                                              
+     ;                                                    
+   unsigned end;                                                           
+   while(gpio_read(echo) == 1)                                                
+     ;
+   end = timer_get_time();
+   // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec                
+   return (end - start) / 149;
 }            
 
 void main(void){
@@ -69,7 +66,7 @@ void main(void){
   //  forward_motion();
   //printf("entering the while loop");
   while (1) {
-    // printf("get distance");
+    printf("get distance");
     unsigned distance = get_distance();
     printf("%s\n", "outside dist");
     printf("distance = %d inches\n", distance);
