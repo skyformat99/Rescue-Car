@@ -26,7 +26,7 @@ void main(void) {
     motor_init();
     printf_init();
     distance_init();
-    system_enable_interrupts();
+//    system_enable_interrupts();
 //    audio_sensor_init();
     ultrasonic_init();
 //    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
