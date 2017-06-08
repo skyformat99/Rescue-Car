@@ -1,107 +1,84 @@
+// set all the pins to be outputs
+// pin for motor A dir1, dir2, speed, motor B dir1, dir2, speed
+
+// GPIO 16 SPEED 20 DIR1 21 DIR2 A
+// GPIO 13 SPEED 19 DIR1 26 DIR2 B
+/*#define HIGH 1
+#define LOW 0
+#define TIME_TURN 10000000
+#define TURN_FIRST_DELAY 100
+#define TURN_SECOND_DELAY 10*/
 
 #include "gpio.h"
 #include "timer.h"
 #include "motor.h"
-#include "led_lights.h"
 
-//static int speed;
+static int speed;
 static int dir;
 
-int get_dir() {
-    return dir;
-}
-
 void motor_init(){
-  // for A right
-  gpio_set_output(GPIO_PIN16);
+  // init speed, time, dir
+  gpio_init();
+  timer_init();
+  // for A
   gpio_set_output(GPIO_PIN20);
   gpio_set_output(GPIO_PIN21);
-  // for B left
-  gpio_set_output(GPIO_PIN13);
-  gpio_set_output(GPIO_PIN19);
-  gpio_set_output(GPIO_PIN26);
+  // for B
+  gpio_set_output(GPIO_PIN5);
+  gpio_set_output(GPIO_PIN6);
 }
 
 void forward_motion(){
   stop();
-  signal_back(OFF);
-  dir = FWD;
-  gpio_write(GPIO_PIN20, HIGH);
-  gpio_write(GPIO_PIN21, LOW);
-  gpio_write(GPIO_PIN19, LOW);
-  gpio_write(GPIO_PIN26, HIGH);
-  gpio_write(GPIO_PIN13, HIGH);
-  gpio_write(GPIO_PIN16, HIGH);
+  gpio_write(GPIO_PIN21, HIGH);
+  gpio_write(GPIO_PIN20, LOW);
+  gpio_write(GPIO_PIN5, LOW);
+  gpio_write(GPIO_PIN6, HIGH);
 }
 
 void reverse_motion(){
   stop();
-  signal_back(ON);
-  dir = REV;
-  gpio_write(GPIO_PIN20, LOW);
-  gpio_write(GPIO_PIN21, HIGH);
-  gpio_write(GPIO_PIN19, HIGH);
-  gpio_write(GPIO_PIN26, LOW);
-  gpio_write(GPIO_PIN13, HIGH);
-  gpio_write(GPIO_PIN16, HIGH);
+  gpio_write(GPIO_PIN21, LOW);
+  gpio_write(GPIO_PIN20, HIGH);
+  gpio_write(GPIO_PIN6, LOW);
+  gpio_write(GPIO_PIN5, HIGH);
 }
 
 void stop(){
-  //write 0 to center 2 pins
-  signal_back(OFF);
+  gpio_write(GPIO_PIN6, LOW);
+  gpio_write(GPIO_PIN5, LOW);
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, LOW);
-  gpio_write(GPIO_PIN19, LOW);
-  gpio_write(GPIO_PIN26, LOW);
-  gpio_write(GPIO_PIN13, LOW);
-  gpio_write(GPIO_PIN16, LOW);
 }
 
 void left_turn(int time_turn){
-    stop();
-    signal_back(OFF);
-    dir = LEFT;
-    int start_time = timer_get_time();
-  while(timer_get_time()-start_time<time_turn){
-    signal_left();
-    gpio_write(GPIO_PIN16, 1);
-    gpio_write(GPIO_PIN13, 0);
-    delay_ms(TURN_FIRST_DELAY);
-    gpio_write(GPIO_PIN16, 0);
-    gpio_write(GPIO_PIN13, 1);
-    delay_ms(TURN_SECOND_DELAY);
-  }
+  stop();
+  int start_time = timer_get_time();
+  gpio_write(GPIO_PIN21, 1);
+  gpio_write(GPIO_PIN20, 0);
+  delay_ms(time_turn);
 }
 
 void right_turn(int time_turn){
-    stop();
-    signal_back(OFF);
-    dir = RIGHT;
-    int start_time = timer_get_time();
-  while(timer_get_time()-start_time<time_turn){
-    signal_right();
-    gpio_write(GPIO_PIN16, 0);
-    gpio_write(GPIO_PIN13, 1);
-    delay_ms(TURN_FIRST_DELAY);
-    gpio_write(GPIO_PIN16, 1);
-    gpio_write(GPIO_PIN13, 0);
-    delay_ms(TURN_SECOND_DELAY);
-  }
+  stop();
+  int start_time = timer_get_time();
+  gpio_write(GPIO_PIN6, 1);
+  gpio_write(GPIO_PIN5, 0);
+  delay_ms(time_turn);
 }
 
 void move(int i, int time){
-  if (i == LEFT) {
+  if(i==0){
     left_turn(time);
-  } else if (i == REV) {
+  } else if(i==1){
     reverse_motion();
     delay_ms(time);
-  } else if (i == FWD) {
+  } else if(i==2){
     forward_motion();
     delay_ms(time);
-  } else if (i == RIGHT) {
+  } else if(i==3){
     right_turn(time);
   } else {
-    // throw error, should never come here                                  
+    // throw error, should never come here
   }
 }
-
