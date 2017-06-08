@@ -22,7 +22,8 @@ void ultrasonic_init() {
   delay_us(40);
 }
 
-unsigned get_distance(void) {                                                                                                                                                        
+unsigned get_distance(void) {       
+   printf("%s\n", "Inside dist");                                                                                                                                                 
   // write hi for 10usec                                                                                                                                                             
   gpio_write(trigger, 1);                                                                                                                                                            
   delay_us(10);                                                                                                                                                                      
@@ -44,54 +45,70 @@ unsigned get_distance(void) {
 
 void main(void){
   gpio_init();
-  /*gpio_set_output(GPIO_PIN20);
-  gpio_set_output(GPIO_PIN21);
-  gpio_set_output(GPIO_PIN5);
-  gpio_set_output(GPIO_PIN6);
+  // gpio_set_output(GPIO_PIN20);
+  // gpio_set_output(GPIO_PIN21);
+  // gpio_set_output(GPIO_PIN5);
+  // gpio_set_output(GPIO_PIN6);
 //  gpio_set_output(GPIO_PIN19);
 //  gpio_set_output(GPIO_PIN26);
 //gpio_write(GPIO_PIN26, 1);
 //gpio_write(GPIO_PIN19, 1);  
-gpio_write(GPIO_PIN20, 0);
-  gpio_write(GPIO_PIN21,1);
-  gpio_write(GPIO_PIN5, 0);
-  gpio_write(GPIO_PIN6, 1);*/
+  // gpio_write(GPIO_PIN20, 0);
+  // gpio_write(GPIO_PIN21,1);
+  // gpio_write(GPIO_PIN5, 0);
+  // gpio_write(GPIO_PIN6, 1);
+  // delay(1);
+  // gpio_write(GPIO_PIN21,0);
+  // gpio_write(GPIO_PIN6,0);
   printf_init();
   motor_init();
-  ultrasonic_init();
-  right_turn(650);
-  stop();
+
+   ultrasonic_init();
+  // right_turn(650);
+  // stop();
   //  forward_motion();
-  /*printf("entering the while loop");
+  //printf("entering the while loop");
   while (1) {
-    printf("get distance");
+    // printf("get distance");
     unsigned distance = get_distance();
+    printf("%s\n", "outside dist");
     printf("distance = %d inches\n", distance);
-    delay_us(1000);
+    // dela;
     unsigned left_distance;
     unsigned right_distance;
     //    display_distance();
     if (distance < 5) {
-      reverse_motion();
-      delay_ms(2000);
+      // reverse_motion();
+      // delay_ms(2000);
       right_turn(2000);
       right_distance = get_distance();
       printf("right distance is (%d) and ", right_distance);
-      left_turn(2000);
-      left_turn(2000);
+      // left_turn(2000);
+      // left_turn(2000);
       left_distance = get_distance();
-      printf("left distance is (%d) \n", left_distance);
-      if (left_distance < right_distance){
-	printf("turning right because there are less obstacles. \n");
-	right_turn(10);//update time from test
-	right_turn(10);//update time from test
-      }
+      // printf("left distance is (%d) \n", left_distance);
+      // if (left_distance < right_distance){
+    	// printf("turning right because there are less obstacles. \n");
+	   // right_turn(10);//update time from test
+	   // right_turn(10);//update time from test
+      // }
       forward_motion();
+      delay(1);
+      stop();
+      // delay(1);
+      // left_turn(650);
+      // delay(1);
+      // stop();
+      // right_turn(650);
+      // delay(1);
+      // stop();
+      // delay(2);
+
     }
     //    if (!isEmpty()) {
     //   for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
     //  } 
-    } */
+    } 
   //reverse_motion();
 //  while(1){}
 
