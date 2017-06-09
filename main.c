@@ -22,16 +22,16 @@ extern int stack[128];
 display_distance() in forever while loop.*/
 void main(void) {
     clock_init();
-//    flashHelp();
-    motor_init();
+  //  motor_init();
     printf_init();
     distance_init();
+    flashHelp();
 //    system_enable_interrupts();
 //    audio_sensor_init();
-    ultrasonic_init();
+//    ultrasonic_init();
 //    led_lights_init(GPIO_PIN6, GPIO_PIN7, GPIO_PIN8);
 //    forward_motion();
-    while (1) {
+/*    while (1) {
         unsigned distance = get_distance();
 //        printf("distance = %d inches\n", distance);
         delay_ms(5000);
@@ -52,6 +52,6 @@ void main(void) {
             }
             forward_motion();
         }
-    }
+    }*/
 }
 
