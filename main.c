@@ -20,64 +20,18 @@ static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
 
-//extern int distance;
-
-/*void ultrasonic_init() {
-  gpio_set_output(trigger);
-  gpio_set_input(echo);
-  gpio_set_pulldown(echo);
-  delay_us(40);
-}
-
-unsigned get_distance(void) {       
-   printf("%s\n", "Inside dist");                                      
-   // write hi for 10usec                                                 
-   gpio_write(trigger, 1);                                                
-   delay_us(10);                                                          
-   gpio_write(trigger, 0);                                               
-   unsigned start = timer_get_time();                       
-   delay_us(149); // wait til device settles: 148 = time to go one inch    
-   while(!gpio_read(echo))                                              
-     ;                                                    
-   unsigned end;                                                           
-   while(gpio_read(echo) == 1)                                                
-     ;
-   end = timer_get_time();
-   // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec                
-   return (end - start) / 149;
-}            */
-
 void main(void){
   gpio_init();
-  // gpio_set_output(GPIO_PIN20);
-  // gpio_set_output(GPIO_PIN21);
-  // gpio_set_output(GPIO_PIN5);
-  // gpio_set_output(GPIO_PIN6);
-//  gpio_set_output(GPIO_PIN19);
-//  gpio_set_output(GPIO_PIN26);
-//gpio_write(GPIO_PIN26, 1);
-//gpio_write(GPIO_PIN19, 1);  
-  // gpio_write(GPIO_PIN20, 0);
-  // gpio_write(GPIO_PIN21,1);
-  // gpio_write(GPIO_PIN5, 0);
-  // gpio_write(GPIO_PIN6, 1);
-  // delay(1);
-  // gpio_write(GPIO_PIN21,0);
-  // gpio_write(GPIO_PIN6,0);
   clock_init();
-  //printf_init();
-  //motor_init();
-  //distance_init();
-  //system_enable_interrupts();
-  //ultrasonic_init();
-  flashHelp();
+  printf_init();
+  motor_init();
+  ultrasonic_init();
+  distance_init();
+  //system_enable_interrupt();
+  //  flashHelp();
   printf("flashed");
-  // right_turn(650);
-  // stop();
-  //  forward_motion();
-  //printf("entering the while loop");
-   delay(3);
-   forward_motion();
+  delay(3);
+  forward_motion();
    while (1) {
     //    printf("distance = %d", distance);
     printf("get distance");
