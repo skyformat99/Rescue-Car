@@ -1,3 +1,4 @@
+#include "clock.h"
 #include "timer.h"
 #include "gpio.h"
 //#include "gpioextra.h"
@@ -13,6 +14,7 @@
 //extern void ultrasonic_init();
 //extern unsigned get_distance();
 
+extern void flashHelp();
 static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
@@ -62,11 +64,14 @@ void main(void){
   // delay(1);
   // gpio_write(GPIO_PIN21,0);
   // gpio_write(GPIO_PIN6,0);
-  printf_init();
-  motor_init();
-  distance_init();
-  system_enable_interrupts();
-   ultrasonic_init();
+  clock_init();
+  //printf_init();
+  //motor_init();
+  //distance_init();
+  //system_enable_interrupts();
+  //ultrasonic_init();
+  flashHelp();
+  printf("flashed");
   // right_turn(650);
   // stop();
   //  forward_motion();
@@ -82,15 +87,20 @@ void main(void){
     // dela;
     unsigned left_distance;
     unsigned right_distance;
-    //    display_distance();
+    display_distance();
     if (distance < 20) {
-      // reverse_motion();
+      reverse_motion();
+      display_distance();
       // delay_ms(2000);
-      right_turn(2000);
+      right_turn(650);
+      display_distance();
       right_distance = get_distance();
+      display_distance();
       //      printf("right distance is (%d) and ", right_distance);
-      // left_turn(2000);
-      // left_turn(2000);
+      left_turn(650);
+      display_distance();
+      left_turn(650);
+      display_distance();
       left_distance = get_distance();
       // printf("left distance is (%d) \n", left_distance);
       // if (left_distance < right_distance){
@@ -98,6 +108,7 @@ void main(void){
 	   // right_turn(10);//update time from test
 	   // right_turn(10);//update time from test
       // }
+      display_distance();
       forward_motion();
       delay(1);
       stop();
