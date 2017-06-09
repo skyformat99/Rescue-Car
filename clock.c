@@ -13,9 +13,32 @@
 #define LEV0  ((volatile unsigned int *)0x20200034) //Address of LEV0 register
 
 char array[19]; //bit patterns for 0-9, A-F (b and d are lowercase)
+void clearAll();
 
 /* Performs initialization of the array containing bitwise pattern for digits and characters. */
 void clock_init() {
+  gpio_set_output(GPIO_PIN9);
+  gpio_set_output(GPIO_PIN10);
+  gpio_set_output(GPIO_PIN11);
+  gpio_set_output(GPIO_PIN12);
+  gpio_set_output(GPIO_PIN17);
+  gpio_set_output(GPIO_PIN18);
+  gpio_set_output(GPIO_PIN22);
+  gpio_set_output(GPIO_PIN23);
+  gpio_set_output(GPIO_PIN24);
+  gpio_set_output(GPIO_PIN25);
+  gpio_set_output(GPIO_PIN27);
+  gpio_write(GPIO_PIN9, 0);
+  gpio_write(GPIO_PIN10, 0);
+  gpio_write(GPIO_PIN11, 0);
+  gpio_write(GPIO_PIN12, 0);
+  gpio_write(GPIO_PIN17, 0);
+  gpio_write(GPIO_PIN18, 0);
+  gpio_write(GPIO_PIN22, 0);
+  gpio_write(GPIO_PIN23, 0);
+  gpio_write(GPIO_PIN24, 0);
+  gpio_write(GPIO_PIN25, 0);
+  gpio_write(GPIO_PIN27, 0);
   array[0] = 0b00111111;
   array[1] = 0b00000110;
   array[2] = 0b01011011;
@@ -42,7 +65,8 @@ void clock_init() {
  * @param num is the bitwise pattern of the digit to be displayed
  * @param pin is the pin (digit) on which the digit should be displayed
  */
-static void displayDigit (unsigned int num, unsigned int pin) {
+void displayDigit (unsigned int num, unsigned int pin) {
+  clearAll();
   unsigned int j = 0;
   gpio_write(pin, 1);
   while (j < 8) { //go through each bit
@@ -79,14 +103,14 @@ static void displayDigit (unsigned int num, unsigned int pin) {
 /*
  * This static function sets all the pins controlling segments to input mode.
  */
-static void clearAll() {
-  gpio_set_input(GPIO_PIN17);
-  gpio_set_input(GPIO_PIN18);
-  gpio_set_input(GPIO_PIN22);
-  gpio_set_input(GPIO_PIN23);
-  gpio_set_input(GPIO_PIN24);
-  gpio_set_input(GPIO_PIN25);
-  gpio_set_input(GPIO_PIN27);
+void clearAll() {
+  gpio_write(GPIO_PIN17, 0);
+  gpio_write(GPIO_PIN18, 0);
+  gpio_write(GPIO_PIN22, 0);
+  gpio_write(GPIO_PIN23, 0);
+  gpio_write(GPIO_PIN24, 0);
+  gpio_write(GPIO_PIN25, 0);
+  gpio_write(GPIO_PIN27, 0);
 }
 
 /*
@@ -96,25 +120,25 @@ static void clearAll() {
  */
 void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int d4, unsigned int delay_counter) { 
   while (delay_counter > 0) {
-    gpio_set_input(GPIO_PIN9);
-    gpio_set_input(GPIO_PIN10);
-    gpio_set_input(GPIO_PIN11);
-  
+    gpio_write(GPIO_PIN9, 0);
+    gpio_write(GPIO_PIN10, 0);
+    gpio_write(GPIO_PIN11, 0);
+    
     displayDigit(array[d4], GPIO_PIN12);
     delay_us(2500);
     clearAll();
 
-    gpio_set_input(GPIO_PIN12);
+    gpio_write(GPIO_PIN12, 0);
     displayDigit(array[d3], GPIO_PIN11);
     delay_us(2500);
     clearAll();
 
-    gpio_set_input(GPIO_PIN11);
+    gpio_write(GPIO_PIN11, 0);
     displayDigit(array[d2], GPIO_PIN10);
     delay_us(2500);
     clearAll();
 
-    gpio_set_input(GPIO_PIN10);
+    gpio_write(GPIO_PIN10, 0);
     displayDigit(array[d1], GPIO_PIN9);
     delay_us(2500);
     clearAll();

@@ -1,20 +1,12 @@
 #include "clock.h"
 #include "timer.h"
 #include "gpio.h"
-//#include "gpioextra.h"
-//#include "printf.h"
 #include "motor.h"
 #include "printf.h"
 #include "sensor.h"
 #include "distance.h"
 #include "interrupts.h"
-//#include "circular.h"
-//#include "ultrasonic.h"
-//#include "sensor.h"
-//extern void ultrasonic_init();
-//extern unsigned get_distance();
 
-extern void flashHelp();
 static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
@@ -27,45 +19,40 @@ void main(void){
   motor_init();
   ultrasonic_init();
   distance_init();
-  //system_enable_interrupt();
-  //  flashHelp();
-  printf("flashed");
+  system_enable_interrupts();
   delay(3);
-  forward_motion();
+  //int count = 10;
    while (1) {
-    //    printf("distance = %d", distance);
-    printf("get distance");
+    forward_motion();
+    display_distance();
+    /*if(count==0){
+      display_distance();
+      count = 10;
+    }
+    count--;*/
+    //display_distance();
     unsigned distance = get_distance();
-    printf("%s\n", "outside dist");
-    printf("distance = %d inches\n", distance);
-    // dela;
     unsigned left_distance;
     unsigned right_distance;
-    display_distance();
+    //display_distance();
     if (distance < 20) {
+      //      flashHelp();
       reverse_motion();
       display_distance();
-      // delay_ms(2000);
       right_turn(650);
-      display_distance();
+      //display_distance();
       right_distance = get_distance();
-      display_distance();
-      //      printf("right distance is (%d) and ", right_distance);
+      //display_distance();
       left_turn(650);
       display_distance();
       left_turn(650);
-      display_distance();
+      //display_distance();
       left_distance = get_distance();
-      // printf("left distance is (%d) \n", left_distance);
-      // if (left_distance < right_distance){
-    	// printf("turning right because there are less obstacles. \n");
-	   // right_turn(10);//update time from test
-	   // right_turn(10);//update time from test
-      // }
       display_distance();
       forward_motion();
       delay(1);
       stop();
+      display_distance();
       // delay(1);
       // left_turn(650);
       // delay(1);

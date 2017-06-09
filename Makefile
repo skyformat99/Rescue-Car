@@ -1,7 +1,7 @@
 NAME = main
 
-OBJECTS = motor.o clock.o distance.o path.o sensor.o led_lights.o interrupt_handlers.o gpio.o
-LIBPI_STUDENT_MODULES =# timer.o gpio.o printf.o malloc.o backtrace.o
+OBJECTS = motor.o clock.o distance.o path.o sensor.o led_lights.o interrupt_handlers.o
+LIBPI_STUDENT_MODULES = #timer.o gpio.o printf.o malloc.o backtrace.o
 
 CS107E=../cs107e.github.io
 

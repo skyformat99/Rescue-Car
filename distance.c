@@ -12,9 +12,10 @@
 #include "printf.h"
 
 //measure time to travel 50cm--> quotient is rate
-#define TURN_SPEED 12.1; //get actual value
-#define STRAIGHT_SPEED 14.5; //get actual value
+#define TURN_SPEED 12.1 //get actual value
+#define STRAIGHT_SPEED 14.5 //get actual value
 #define DISTANCE_TIMER_INTERVAL 0x100000 //set to 1 second = 10^6 us
+#define DELAY_DISTANCE 24
 
 //extern int stack[1024];
 //extern int top;
@@ -22,7 +23,8 @@
 
 extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
-static unsigned int distance;
+//static unsigned int distance;
+static unsigned int distance; 
 static unsigned int total_time; //in us
 static unsigned int mov_time; //in us
 static unsigned int prev_mov;
@@ -32,7 +34,7 @@ void distance_init() {
   distance = 0;
   mov_time = 0;
   total_time = 0;
-  prev_time = timer_get_time()/1000;
+  prev_time = timer_get_time()/1000000;
   prev_mov = FWD; //assume 1st move is forward
   armtimer_init(DISTANCE_TIMER_INTERVAL);
   armtimer_enable();
@@ -45,7 +47,7 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-  int cur_time = timer_get_time()/1000;
+  int cur_time = timer_get_time()/1000000;
   int cur_mov = get_dir();
   if ((cur_mov == FWD) || (cur_mov == REV)) {
     distance += (cur_time - prev_time)*STRAIGHT_SPEED;
@@ -58,7 +60,8 @@ void compute_distance() {
   } else total_time += cur_time - prev_time;
   prev_time = cur_time;
   //distance++;
-  //    printf("distance is %d \n", distance);
+  //distance -= DELAY_DISTANCE;
+  printf("distance is %d \n", distance);
 }
 
 void distance_vector(unsigned pc) {
@@ -69,9 +72,12 @@ void distance_vector(unsigned pc) {
 }
 
 void display_distance() { 
+  /*if(distance<0){
+    displayNum(0, 0, 0, 0, 100);
+    }*/
   int d4 = distance % 10;
   int d3 = (distance/10) % 10;
   int d2 = (distance/100) % 10;
   int d1 = distance/1000;
-  displayNum(d1, d2, d3, d4, 10);
+  displayNum(d1, d2, d3, d4, 100);
 }
