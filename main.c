@@ -18,7 +18,7 @@ static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
 
-extern int distance;
+//extern int distance;
 
 /*void ultrasonic_init() {
   gpio_set_output(trigger);
@@ -71,8 +71,10 @@ void main(void){
   // stop();
   //  forward_motion();
   //printf("entering the while loop");
-  while (1) {
-    printf("distance = %d", distance);
+   delay(3);
+   forward_motion();
+   while (1) {
+    //    printf("distance = %d", distance);
     printf("get distance");
     unsigned distance = get_distance();
     printf("%s\n", "outside dist");
@@ -86,7 +88,7 @@ void main(void){
       // delay_ms(2000);
       right_turn(2000);
       right_distance = get_distance();
-      printf("right distance is (%d) and ", right_distance);
+      //      printf("right distance is (%d) and ", right_distance);
       // left_turn(2000);
       // left_turn(2000);
       left_distance = get_distance();
