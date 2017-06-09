@@ -22,7 +22,7 @@
 
 extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
-static unsigned int distance;
+unsigned int distance;
 static unsigned int total_time; //in us
 static unsigned int mov_time; //in us
 static unsigned int prev_mov;
@@ -45,7 +45,7 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-  int cur_time = timer_get_time()/1000;
+  /*int cur_time = timer_get_time()/1000;
   int cur_mov = get_dir();
   if ((cur_mov == FWD) || (cur_mov == REV)) {
     distance += (cur_time - prev_time)*STRAIGHT_SPEED;
@@ -56,7 +56,8 @@ void compute_distance() {
     push((total_time*10)+prev_mov);
     total_time = cur_time - prev_time;
   } else total_time += cur_time - prev_time;
-  prev_time = cur_time;
+  prev_time = cur_time;*/
+  distance++;
   //    printf("distance is %d \n", distance);
 }
 

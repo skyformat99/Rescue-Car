@@ -5,6 +5,8 @@
 #include "motor.h"
 #include "printf.h"
 #include "sensor.h"
+#include "distance.h"
+#include "interrupts.h"
 //#include "circular.h"
 //#include "ultrasonic.h"
 //#include "sensor.h"
@@ -15,6 +17,8 @@ static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
+
+extern int distance;
 
 /*void ultrasonic_init() {
   gpio_set_output(trigger);
@@ -60,13 +64,15 @@ void main(void){
   // gpio_write(GPIO_PIN6,0);
   printf_init();
   motor_init();
-
+  distance_init();
+  system_enable_interrupts();
    ultrasonic_init();
   // right_turn(650);
   // stop();
   //  forward_motion();
   //printf("entering the while loop");
   while (1) {
+    printf("distance = %d", distance);
     printf("get distance");
     unsigned distance = get_distance();
     printf("%s\n", "outside dist");

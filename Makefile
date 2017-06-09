@@ -1,6 +1,6 @@
 NAME = main
 
-OBJECTS = motor.o clock.o distance.o path.o sensor.o led_lights.o
+OBJECTS = motor.o clock.o distance.o path.o sensor.o led_lights.o interrupt_handlers.o
 LIBPI_STUDENT_MODULES =# timer.o gpio.o printf.o malloc.o backtrace.o
 
 CS107E=../cs107e.github.io
@@ -10,8 +10,11 @@ CFLAGS  = -I$(CS107E)/libpi/include -g -Wall -Wpointer-arith
 CFLAGS += -Og -std=c99 -ffreestanding 
 CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name
 LDFLAGS = -nostdlib -T memmap -L$(CS107E)/libpi/lib
+REFERENCE_WITH_PATH = $(patsubst %.o,$(CS107E)/libpi/modules/%.o,$(LIBPI_REFERENCE_MODULES))
 LDLIBS = -lpi -lgcc
-
+LIBPI_SOURCES = abort.c armtimer.c font.c gpioevent.c gpioextra.c interrupts.c mailbox.c ps2.c reboot.c strtol.c uart.c
+LIBPI_ALL = $(LIBPI_STUDENT_MODULES) $(REFERENCE_WITH_PATH) $(LIBPI_SOURCES:.c=.o) $(LIBPI_ASM_SOURCES:.s=.o)
+LIBPI_ASM_SOURCES = register.s vectors.s
 
 all : $(NAME).bin $(LIBPI_STUDENT_MODULES)
 
