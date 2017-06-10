@@ -18,10 +18,10 @@ void main(void){
   printf_init();
   motor_init();
   ultrasonic_init();
-  distance_init();
   system_enable_interrupts();
   delay(3);
   //int count = 10;
+  distance_init();
    while (1) {
     forward_motion();
     display_distance();
