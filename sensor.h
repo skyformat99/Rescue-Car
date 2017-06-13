@@ -1,6 +1,7 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
+int get_flag();
 void ultrasonic_init();
 void audio_sensor_init(); //audio sensor
 unsigned get_distance(void); //ultrasonic sensor

@@ -1,20 +1,17 @@
-// #include "clock.h"
-#include "timer.h"
 #include "gpio.h"
+#include "timer.h"
 #include "motor.h"
 #include "printf.h"
 #include "sensor.h"
 #include "distance.h"
 #include "interrupts.h"
-// #include "clock.h"
 #include "odometer.h"
-
 
 static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
-void main(){
+void main2(){
   gpio_init();
   gpio_set_input(GPIO_PIN26);
   while(gpio_read(GPIO_PIN26)){
@@ -23,7 +20,7 @@ void main(){
   printf("%s\n","done" );
 }
 
-void main2(void){
+void main(){
   gpio_init();
   timer_init();
   clock_init();
@@ -31,7 +28,7 @@ void main2(void){
   motor_init();
   ultrasonic_init();
   distance_init();
-  // system_enable_interrupts();
+  system_enable_interrupts();
   delay(5);
   // flashHelp();
   //test remote control
@@ -47,7 +44,7 @@ void main2(void){
   // }
   
     //int count = 10;
-  int sensitiviy_distance = 10;
+  int sensitiviy_distance = 15;
   int count = 0;
    while (1) {
     // if(count == 0){
@@ -93,9 +90,6 @@ void main2(void){
 
     }
     forward_motion();
-    //    if (!isEmpty()) {
-    //   for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
-    //  } 
     } 
 }
 

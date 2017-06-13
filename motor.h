@@ -1,3 +1,6 @@
+#ifndef MOTOR_H
+#define MOTOR_H
+
 // set all the pins to be outputs
 // pin for motor A dir1, dir2, speed, motor B dir1, dir2, speed
 
@@ -30,3 +33,5 @@ void left_turn(int time_turn);
 void right_turn(int time_turn);
 
 void move(int i, int time);
+
+#endif

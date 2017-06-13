@@ -14,6 +14,11 @@ static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
+static int flag = 0;
+
+int get_flag() {
+  return flag;
+}
 
 /* This getter function returns value of help flag. */
 int get_help() {
@@ -29,6 +34,7 @@ void clear_help() {
   the distance, in inches, of the obstacle from the user. */
 unsigned get_distance(void) {
   // write high for 10usec
+  flag = 1;
   gpio_write(trigger, 1);
   delay_us(10);
   gpio_write(trigger, 0);
@@ -41,6 +47,7 @@ unsigned get_distance(void) {
   while(gpio_read(echo) == 1);
   end = timer_get_time();
 
+  flag = 0;
   // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec
   return (end - start) / 149;
 }
