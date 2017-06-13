@@ -2,7 +2,7 @@
  * This file contains functions that implement the clock.
  */
 
-#include "clock.h"
+#include "odometer.h"
 #include "gpio.h"
 #include "timer.h"
 #include "path.h"
@@ -21,7 +21,7 @@
 //extern int top;
 //int c = 0;
 
-extern void displayNum(int d1, int d2, int d3, int d4, int c);
+// extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
 //static unsigned int distance;
 static unsigned int distance; 
@@ -38,8 +38,8 @@ void distance_init() {
   prev_mov = FWD; //assume 1st move is forward
   armtimer_init(DISTANCE_TIMER_INTERVAL);
   armtimer_enable();
-  armtimer_enable_interrupt();
-  interrupts_enable_basic(INTERRUPTS_BASIC_ARM_TIMER_IRQ); 
+  // armtimer_enable_interrupt();
+  // interrupts_enable_basic(INTERRUPTS_BASIC_ARM_TIMER_IRQ); 
 }
 
 unsigned int get_dist() {
@@ -61,7 +61,7 @@ void compute_distance() {
   prev_time = cur_time;
   //distance++;
   //distance -= DELAY_DISTANCE;
-  printf("distance is %d \n", distance);
+  // printf("distance is %d \n", distance);
 }
 
 void distance_vector(unsigned pc) {

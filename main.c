@@ -1,4 +1,4 @@
-#include "clock.h"
+// #include "clock.h"
 #include "timer.h"
 #include "gpio.h"
 #include "motor.h"
@@ -6,54 +6,83 @@
 #include "sensor.h"
 #include "distance.h"
 #include "interrupts.h"
+// #include "clock.h"
+#include "odometer.h"
+
 
 static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
-
-void main(void){
+void main(){
   gpio_init();
+  gpio_set_input(GPIO_PIN26);
+  while(gpio_read(GPIO_PIN26)){
+
+  }
+  printf("%s\n","done" );
+}
+
+void main2(void){
+  gpio_init();
+  timer_init();
   clock_init();
   printf_init();
   motor_init();
   ultrasonic_init();
-  system_enable_interrupts();
-  delay(3);
-  //int count = 10;
   distance_init();
+  // system_enable_interrupts();
+  delay(5);
+  // flashHelp();
+  //test remote control
+  // gpio_set_input(GPIO_PIN21);
+  //  unsigned int x;
+  // while (1){
+  //   x = gpio_read(GPIO_PIN21);
+  //   if(x != 0){
+  //     break;
+  //   } 
+  //   // printf("%d\n",x );
+  //   // delay(0.2);
+  // }
+  
+    //int count = 10;
+  int sensitiviy_distance = 10;
+  int count = 0;
    while (1) {
-    forward_motion();
-    display_distance();
-    /*if(count==0){
-      display_distance();
-      count = 10;
-    }
-    count--;*/
-    //display_distance();
+    // if(count == 0){
+    //   display_distance();
+    //   count = 10;
+    // }
+    // count--;
     unsigned distance = get_distance();
     unsigned left_distance;
     unsigned right_distance;
-    //display_distance();
-    if (distance < 20) {
-      //      flashHelp();
+    if (distance <= sensitiviy_distance) {
       reverse_motion();
-      display_distance();
+      delay(1);
+      // display_distance();
       right_turn(650);
-      //display_distance();
+      stop();
+      // display_distance();
       right_distance = get_distance();
-      //display_distance();
-      left_turn(650);
-      display_distance();
-      left_turn(650);
+      left_turn(1300);//to account for two turns
+      stop();
+      // left_turn(650);
       //display_distance();
       left_distance = get_distance();
-      display_distance();
-      forward_motion();
-      delay(1);
+      // display_distance();
+      // display_distance();
+      if (left_distance < right_distance){
+        right_turn(1300);
+      }
       stop();
       display_distance();
+      
       // delay(1);
+      // stop ();
+      // display_distance();
+      // // delay(1);
       // left_turn(650);
       // delay(1);
       // stop();
@@ -63,14 +92,11 @@ void main(void){
       // delay(2);
 
     }
+    forward_motion();
     //    if (!isEmpty()) {
     //   for (int i = 0; i <= top; i++) printf("i: distance is %d %d \n", i, stack[i]);
     //  } 
     } 
-  //reverse_motion();
-//  while(1){}
-
-  //  delay(500);
 }
 
 

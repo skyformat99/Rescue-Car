@@ -2,7 +2,7 @@
  * This file contains functions that implement the clock.
  */
 
-#include "clock.h"
+#include "odometer.h"
 #include "gpio.h"
 #include "timer.h"
 
@@ -14,6 +14,7 @@
 
 char array[19]; //bit patterns for 0-9, A-F (b and d are lowercase)
 void clearAll();
+#define DELAY_TIME 1000
 
 /* Performs initialization of the array containing bitwise pattern for digits and characters. */
 void clock_init() {
@@ -125,22 +126,22 @@ void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int 
     gpio_write(GPIO_PIN11, 0);
     
     displayDigit(array[d4], GPIO_PIN12);
-    delay_us(2500);
+    delay_us(DELAY_TIME);
     clearAll();
 
     gpio_write(GPIO_PIN12, 0);
     displayDigit(array[d3], GPIO_PIN11);
-    delay_us(2500);
+    delay_us(DELAY_TIME);
     clearAll();
 
     gpio_write(GPIO_PIN11, 0);
     displayDigit(array[d2], GPIO_PIN10);
-    delay_us(2500);
+    delay_us(DELAY_TIME);
     clearAll();
 
     gpio_write(GPIO_PIN10, 0);
     displayDigit(array[d1], GPIO_PIN9);
-    delay_us(2500);
+    delay_us(DELAY_TIME);
     clearAll();
 
     delay_counter--;

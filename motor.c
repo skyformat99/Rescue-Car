@@ -17,11 +17,18 @@ void motor_init(){
   // for B
   gpio_set_output(GPIO_PIN5);
   gpio_set_output(GPIO_PIN6);
+  //enable pins
+  gpio_set_output(GPIO_PIN19);
+  gpio_set_output(GPIO_PIN26);
+  //set the enable pins to high
+  gpio_write(GPIO_PIN19, HIGH);
+  gpio_write(GPIO_PIN26,HIGH);
 }
 
 void forward_motion(){
   stop();
   dir = FWD;
+  //direction pins
   gpio_write(GPIO_PIN21, HIGH);
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN5, LOW);
@@ -47,17 +54,21 @@ void stop(){
 void left_turn(int time_turn){
   stop();
   dir = LEFT;
-  gpio_write(GPIO_PIN21, 1);
-  gpio_write(GPIO_PIN20, 0);
+  gpio_write(GPIO_PIN21, HIGH);
+  gpio_write(GPIO_PIN20, LOW);
   delay_ms(time_turn);
+  //after the turn time, we need to stop turning
+  gpio_write(GPIO_PIN21, LOW);
 }
 
 void right_turn(int time_turn){
   stop();
   dir = RIGHT;
-  gpio_write(GPIO_PIN6, 1);
-  gpio_write(GPIO_PIN5, 0);
+  gpio_write(GPIO_PIN6, HIGH);
+  gpio_write(GPIO_PIN5, LOW);
   delay_ms(time_turn);
+  //after the turn time, we need to stop turning
+  gpio_write(GPIO_PIN6, LOW);
 }
 
 void move(int i, int time){
@@ -71,7 +82,6 @@ void move(int i, int time){
     delay_ms(time);
   } else if(i == RIGHT){
     right_turn(time);
-  } else {
-    // throw error, should never come here
-  }
+  } 
+  return;
 }
