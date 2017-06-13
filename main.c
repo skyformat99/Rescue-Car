@@ -6,6 +6,7 @@
   #include "distance.h"
   #include "interrupts.h"
   #include "odometer.h"
+  #include "led_lights.h"
   #define TURN_TIME 1000
 
   static int help = 0;
@@ -29,6 +30,7 @@
     motor_init();
     ultrasonic_init();
     distance_init();
+    led_lights_init(GPIO_PIN7, GPIO_PIN8, GPIO_PIN13);
     system_enable_interrupts();
     delay(5);
     // flashHelp();

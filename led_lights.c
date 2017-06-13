@@ -29,8 +29,8 @@ void signal_right() {
   signal(right_pin);
 }
 
-void signal_back(int mode) {
-  gpio_write(back_pin, mode);
+void signal_back() {
+  signal(back_pin);
 }
 
 void alarm_pattern() {

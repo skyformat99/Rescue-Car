@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "motor.h"
 #include "distance.h"
+#include "led_lights.h"
 
 static int dir;
 
@@ -48,6 +49,7 @@ void forward_motion() {
 /* This function enables pins to move the car backward. */
 void reverse_motion() {
     stop();
+    signal_back();
     dir = REV;
     gpio_write(GPIO_PIN21, LOW);
     gpio_write(GPIO_PIN20, HIGH);
@@ -66,6 +68,7 @@ void stop() {
 /* This function enables pins to turn the car left. */
 void left_turn(int time_turn) {
     stop();
+    signal_left();
     dir = LEFT;
     gpio_write(GPIO_PIN21, HIGH);
     gpio_write(GPIO_PIN20, LOW);
@@ -76,6 +79,7 @@ void left_turn(int time_turn) {
 /* This function enables pins to turn the car right. */
 void right_turn(int time_turn) {
     stop();
+    signal_right();
     dir = RIGHT;
     gpio_write(GPIO_PIN6, HIGH);
     gpio_write(GPIO_PIN5, LOW);

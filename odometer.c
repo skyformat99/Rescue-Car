@@ -5,6 +5,7 @@
 #include "odometer.h"
 #include "gpio.h"
 #include "timer.h"
+#include "led_lights.h"
 
 #define FSEL1 ((volatile unsigned int *)0x20200004) //Address of FSEL1 register
 #define FSEL2 ((volatile unsigned int *)0x20200008) //Address of FSEL2 register
@@ -151,6 +152,7 @@ void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int 
 /* This function flashes "HELP" on the display ten times. */
 void flashHelp() {
     int c = 10;
+    alarm_pattern();
     while (c > 0) {
         displayNum(16, 14, 17, 18, 40);
         clearAll();
