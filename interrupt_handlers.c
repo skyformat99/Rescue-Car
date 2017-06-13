@@ -5,7 +5,7 @@
 extern void distance_vector(unsigned pc);
 
 void interrupt_vector(unsigned pc) {
-  distance_vector(pc);
+    distance_vector(pc);
 }
 
 // The rest of these should never be called
