@@ -1,5 +1,5 @@
 /*
- * This file contains functions that implement the clock.
+ * This file contains functions that implement the odometer.
  */
 
 #include "odometer.h"
@@ -148,6 +148,7 @@ void displayNum(unsigned int d1, unsigned int d2, unsigned int d3, unsigned int 
   }
 }
 
+/* This function flashes "HELP" on the display ten times. */
 void flashHelp() {
   int c = 10;
   while (c > 0) {

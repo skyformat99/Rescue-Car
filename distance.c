@@ -11,12 +11,10 @@
 #include "interrupts.h"
 #include "printf.h"
 
-#define TURN_SPEED 6 //get actual value
-#define STRAIGHT_SPEED 7.25//get actual value
-#define DISTANCE_TIMER_INTERVAL 10000 //set to 1 second = 10^6 us
-#define DELAY_DISTANCE 24
-
-// extern void displayNum(int d1, int d2, int d3, int d4, int c);
+#define TURN_SPEED 6 
+#define STRAIGHT_SPEED 7.25
+#define DISTANCE_TIMER_INTERVAL 10000 
+#define DELAY_DISTANCE 24 //not needed so can remove
 
 static unsigned int distance; 
 static unsigned int total_time; //in us
@@ -25,40 +23,39 @@ static unsigned int prev_mov;
 static unsigned int prev_time;
 static unsigned int count;
 static int motor_flag = 0;
-// static
 
+/* This function initializes variables and enables armtimer interrupts. */
 void distance_init() {
   distance = 0;
   mov_time = 0;
   total_time = 0;
   prev_time = timer_get_time()/1000000;
   prev_mov = FWD; //assume 1st move is forward
-  //count = 50000;
   armtimer_init(DISTANCE_TIMER_INTERVAL);
   armtimer_enable();
   armtimer_enable_interrupt();
   interrupts_enable_basic(INTERRUPTS_BASIC_ARM_TIMER_IRQ); 
 }
 
+/* This getter function returns the distance the car has travelled so far. 
+   @return the distance of type unsigned int */
 unsigned int get_dist() {
   return distance;
 }
 
+/* This function implements Pulse Width Modulation to decrease the speed of the car by one half. 
+It also calculates the distance the car has travelled so far. */
 void compute_distance() {
-  if (motor_flag%2) {
+  if (motor_flag % 2) {
     gpio_write(GPIO_PIN19, 0);
     gpio_write(GPIO_PIN26, 0);
-    // motor_flag = 1;
   }
   else {
     gpio_write(GPIO_PIN19, 1);
     gpio_write(GPIO_PIN26, 1);
-    // motor_flag = 0;
   }
   motor_flag++;
-  // need to enable opposite of current power status to both motors; will flip rapidly
-  if (get_flag()) return; //dont execute computations if in middle of ultrasound  
-//  if (count != 0) return;
+  if (get_flag()) return; //don't execute computations if in middle of ultrasound  
   int cur_time = timer_get_time()/1000000;
   int cur_mov = get_dir();
   if ((cur_mov == FWD) || (cur_mov == REV)) {
@@ -71,17 +68,17 @@ void compute_distance() {
     total_time = cur_time - prev_time;
   } else total_time += cur_time - prev_time;
   prev_time = cur_time;
-  //count = 50000;
 }
 
+/* This function handles armtimer interrupts, executing PWM and calculating the distance the car has travelled. */
 void distance_vector(unsigned pc) {
   if (armtimer_check_interrupt()) {
-    count--;
     compute_distance();       
     armtimer_clear_interrupt();
   }
 }
 
+/* This function displays the distance the car has travelled so far on the screen.*/
 void display_distance() { 
   int d4 = distance % 10;
   int d3 = (distance/10) % 10;

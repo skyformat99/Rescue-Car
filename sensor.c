@@ -1,3 +1,5 @@
+/* This file contains functions that implement the ultrasonic sensor. */
+
 #include "interrupts.h"
 #include "timer.h"
 #include "gpio.h"
@@ -14,18 +16,21 @@ static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
 static unsigned int audio_pin = GPIO_PIN5;
-static int flag = 0;
+static int flag = 0; 
 
+/* This getter function returns whether or not the program is currently in the function that calls the ultrasonic sensor. 
+   @return the value of the flag of type int */
 int get_flag() {
   return flag;
 }
 
-/* This getter function returns value of help flag. */
+/* This getter function returns the value of the help flag, which indicates whether or not "HELP" should be flashed on the screen.
+   @return the value of the help flag of type int */
 int get_help() {
   return help;
 }
 
-/* This function clears the flag that toggles "warning" behavior. */
+/* This function clears the flag that toggles "warning" behavior (aka flashing "HELP" on the screen). */
 void clear_help() {
   help = 0;
 }
@@ -52,8 +57,7 @@ unsigned get_distance(void) {
   return (end - start) / 149;
 }
 
-/* This function initializes the audio sensor by setting up GPIO_PIN5 as an input 
-   pin that can enable interrupts. */
+/* This function initializes the audio sensor by setting up GPIO_PIN5 as an input pin that can enable interrupts. */
 void audio_sensor_init() {
   gpio_set_function(GPIO_PIN5, GPIO_FUNC_INPUT);
   gpio_set_pullup(GPIO_PIN5);
@@ -70,13 +74,13 @@ void ultrasonic_init() {
 }
 
 /* Interrupt hanlder for the audio sensor, which triggers gpio interrupt that activates
-   "warning" behavior.*/
+   "warning" behavior.
 void audio_sensor_vector(unsigned pc) {
   if (!gpio_check_and_clear_event(GPIO_PIN5)) return;
   help = 1; //check for this flag in main, and then flash LEDS/flash HELP on clock
 }
 
-/* This function returns the value of the audio sensor's pin.*/
+ This function returns the value of the audio sensor's pin.
 int audio_sensor_fetch() {
   return gpio_read(audio_pin);
-}
+}*/

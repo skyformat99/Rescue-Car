@@ -1,13 +1,11 @@
-
-#include "printf.h"
 /* Interrupt Handlers */
 
+#include "printf.h"
+
 extern void distance_vector(unsigned pc);
-//extern void audio_sensor_vector(unsigned pc);
 
 void interrupt_vector(unsigned pc) {
   distance_vector(pc);
-  //  audio_sensor_vector(pc);
 }
 
 // The rest of these should never be called
