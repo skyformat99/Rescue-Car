@@ -14,7 +14,7 @@
 
 char array[19]; //bit patterns for 0-9, A-F (b and d are lowercase)
 void clearAll();
-#define DELAY_TIME 1000
+#define DELAY_TIME 2500
 
 /* Performs initialization of the array containing bitwise pattern for digits and characters. */
 void clock_init() {

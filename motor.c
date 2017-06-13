@@ -1,6 +1,7 @@
 #include "gpio.h"
 #include "timer.h"
 #include "motor.h"
+#include "distance.h"
 
 static int dir;
 
@@ -49,6 +50,7 @@ void stop(){
   gpio_write(GPIO_PIN5, LOW);
   gpio_write(GPIO_PIN20, LOW);
   gpio_write(GPIO_PIN21, LOW);
+//  display_distance();
 }
 
 void left_turn(int time_turn){

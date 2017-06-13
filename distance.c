@@ -11,9 +11,9 @@
 #include "interrupts.h"
 #include "printf.h"
 
-#define TURN_SPEED 12.1 //get actual value
-#define STRAIGHT_SPEED 14.5 //get actual value
-#define DISTANCE_TIMER_INTERVAL 0x100 //set to 1 second = 10^6 us
+#define TURN_SPEED 6 //get actual value
+#define STRAIGHT_SPEED 7.25//get actual value
+#define DISTANCE_TIMER_INTERVAL 10000 //set to 1 second = 10^6 us
 #define DELAY_DISTANCE 24
 
 // extern void displayNum(int d1, int d2, int d3, int d4, int c);
@@ -25,6 +25,7 @@ static unsigned int prev_mov;
 static unsigned int prev_time;
 static unsigned int count;
 static int motor_flag = 0;
+// static
 
 void distance_init() {
   distance = 0;
@@ -32,7 +33,7 @@ void distance_init() {
   total_time = 0;
   prev_time = timer_get_time()/1000000;
   prev_mov = FWD; //assume 1st move is forward
-  count = 50000;
+  //count = 50000;
   armtimer_init(DISTANCE_TIMER_INTERVAL);
   armtimer_enable();
   armtimer_enable_interrupt();
@@ -44,19 +45,20 @@ unsigned int get_dist() {
 }
 
 void compute_distance() {
-  if (!motor_flag) {
+  if (motor_flag%2) {
     gpio_write(GPIO_PIN19, 0);
     gpio_write(GPIO_PIN26, 0);
-    motor_flag = 1;
+    // motor_flag = 1;
   }
   else {
     gpio_write(GPIO_PIN19, 1);
     gpio_write(GPIO_PIN26, 1);
-    motor_flag = 0;
+    // motor_flag = 0;
   }
-  //need to enable opposite of current power status to both motors; will flip rapidly
+  motor_flag++;
+  // need to enable opposite of current power status to both motors; will flip rapidly
   if (get_flag()) return; //dont execute computations if in middle of ultrasound  
-  if (count != 0) return;
+//  if (count != 0) return;
   int cur_time = timer_get_time()/1000000;
   int cur_mov = get_dir();
   if ((cur_mov == FWD) || (cur_mov == REV)) {
@@ -69,8 +71,7 @@ void compute_distance() {
     total_time = cur_time - prev_time;
   } else total_time += cur_time - prev_time;
   prev_time = cur_time;
-  count = 50000;
-  // printf("distance is %d \n", distance);
+  //count = 50000;
 }
 
 void distance_vector(unsigned pc) {
