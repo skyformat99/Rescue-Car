@@ -14,13 +14,14 @@
 //measure time to travel 50cm--> quotient is rate
 #define TURN_SPEED 12.1 //get actual value
 #define STRAIGHT_SPEED 14.5 //get actual value
-#define DISTANCE_TIMER_INTERVAL 0x100000 //set to 1 second = 10^6 us
+#define DISTANCE_TIMER_INTERVAL 0x300000 //set to 1 second = 10^6 us
 #define DELAY_DISTANCE 24
 
 //extern int stack[1024];
 //extern int top;
 //int c = 0;
 
+extern int sensor_flag;
 extern void displayNum(int d1, int d2, int d3, int d4, int c);
 
 //static unsigned int distance;
@@ -46,7 +47,11 @@ unsigned int get_dist() {
   return distance;
 }
 
+//also use this function to do software pwm
+//turn on/off power pins every time interrupt is called
 void compute_distance() {
+  //flip power value
+  if (sensor_flag) return;
   int cur_time = timer_get_time()/1000000;
   int cur_mov = get_dir();
   if ((cur_mov == FWD) || (cur_mov == REV)) {
@@ -61,7 +66,7 @@ void compute_distance() {
   prev_time = cur_time;
   //distance++;
   //distance -= DELAY_DISTANCE;
-  printf("distance is %d \n", distance);
+//  printf("distance is %d \n", distance);
 }
 
 void distance_vector(unsigned pc) {

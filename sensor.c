@@ -13,7 +13,8 @@
 static int help = 0;
 static const unsigned trigger = GPIO_PIN3;
 static const unsigned echo = GPIO_PIN2;
-static unsigned int audio_pin = GPIO_PIN5;
+static unsigned int audio_pin = GPIO_PIN16;
+int sensor_flag = 0;
 
 /* This getter function returns value of help flag. */
 int get_help() {
@@ -29,6 +30,7 @@ void clear_help() {
   the distance, in inches, of the obstacle from the user. */
 unsigned get_distance(void) {
   // write high for 10usec
+  sensor_flag = 1;
   gpio_write(trigger, 1);
   delay_us(10);
   gpio_write(trigger, 0);
@@ -42,16 +44,17 @@ unsigned get_distance(void) {
   end = timer_get_time();
 
   // ((340M/S / 2) * 39.37inch / meter) / 10^6 = inch/usec
+  sensor_flag = 0;
   return (end - start) / 149;
 }
 
 /* This function initializes the audio sensor by setting up GPIO_PIN5 as an input 
    pin that can enable interrupts. */
 void audio_sensor_init() {
-  gpio_set_function(GPIO_PIN5, GPIO_FUNC_INPUT);
-  gpio_set_pullup(GPIO_PIN5);
-  gpio_detect_falling_edge(GPIO_PIN5);
-  interrupts_enable(INTERRUPTS_GPIO3); 
+  gpio_set_function(GPIO_PIN2, GPIO_FUNC_INPUT);
+//  gpio_set_pullup(GPIO_PIN16);
+//  gpio_detect_falling_edge(GPIO_PIN16);
+//  interrupts_enable(INTERRUPTS_GPIO3); 
 }
 
 /* This function initializes the ultrasonic sensor to measure obstacle distances. */
@@ -65,7 +68,7 @@ void ultrasonic_init() {
 /* Interrupt hanlder for the audio sensor, which triggers gpio interrupt that activates
    "warning" behavior.*/
 void audio_sensor_vector(unsigned pc) {
-  if (!gpio_check_and_clear_event(GPIO_PIN5)) return;
+  if (!gpio_check_and_clear_event(GPIO_PIN16)) return;
   help = 1; //check for this flag in main, and then flash LEDS/flash HELP on clock
 }
 
