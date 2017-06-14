@@ -14,8 +14,8 @@
   static const unsigned echo = GPIO_PIN2;
   static unsigned int audio_pin = GPIO_PIN5;
 
- void main4(){
-    led_lights_init(GPIO_PIN7, GPIO_PIN8, GPIO_PIN19);
+ void main3(){
+    led_lights_init(GPIO_PIN7, GPIO_PIN8, GPIO_PIN13);
   while(1) { 
    signal_left();
     delay(1);
@@ -37,7 +37,7 @@
     printf("%s\n","done" );
   }
 
-  void main(){
+void main(){
     gpio_init();
     timer_init();
     clock_init();
@@ -50,35 +50,35 @@
     delay(5);
     int sensitiviy_distance = 15;
     int count = 0;
-     while (1) {
-      unsigned distance = get_distance();
-      unsigned left_distance;
-      unsigned right_distance;
-      if (distance <= sensitiviy_distance) {
-        reverse_motion();
-        delay(1);
-        stop();
-        display_distance();
+    while (1) {
+        unsigned distance = get_distance();
+        unsigned left_distance;
+        unsigned right_distance;
+        if (distance <= sensitiviy_distance) {
+            reverse_motion();
+            delay(1);
+            stop();
+            display_distance();
 
-        right_turn( TURN_TIME);
-        stop();
-        display_distance();
+            right_turn(TURN_TIME);
+            stop();
+            display_distance();
+            right_distance = get_distance();
 
-        right_distance = get_distance();
-        left_turn(2* TURN_TIME);//to account for two turns
-        stop();
-        display_distance();
+            left_turn(2* TURN_TIME);//to account for two turns
+            stop();
+            display_distance();
+            left_distance = get_distance();
 
-        left_distance = get_distance();
-        if (left_distance <= sensitiviy_distance && right_distance <= sensitiviy_distance){
-          flashHelp();
-          reverse_motion();
-          delay(2);
-        } else if (left_distance < right_distance){
-          right_turn(2* TURN_TIME);
+            if (left_distance <= sensitiviy_distance && right_distance <= sensitiviy_distance) {
+                flashHelp();
+                reverse_motion();
+                delay(2);
+            } else if (left_distance < right_distance) {
+                right_turn(2* TURN_TIME);
+            }
+            stop();
         }
-        stop();
-      }
-      forward_motion();
-      } 
-  }
+        forward_motion();
+    } 
+}
