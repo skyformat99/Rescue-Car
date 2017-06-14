@@ -10,7 +10,7 @@ All of us worked together on all parts of the project (hardware, software, debug
 A general breakdown where we spent much of the time is as follows:
 
 Ken - Remote On/Off, Motor/Motor Driver, Ultrasonic Sensor, much soldering;
-Durga - Armtimer Interrupts (PWM, Odometer calculations/display), LED Lights, Motor/Interfacing hardware & software components together;
-Jenny - Ultrasonic Sensor, Motor/Motor Driver, LED Lights
+Durga - Armtimer Interrupts (PWM, Odometer calculations/display), LED Lights, Motor/Interfacing hardware & software components together (functionality and style);
+Jenny - Ultrasonic Sensor, Motor/Motor Driver, LED Lights, Debugging clock
 
 
