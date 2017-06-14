@@ -59,7 +59,7 @@ void compute_distance() {
     int cur_mov = get_dir();
     if ((cur_mov == FWD) || (cur_mov == REV)) {
         distance += (cur_time - prev_time)*STRAIGHT_SPEED;
-    } else {
+    } else if ((cur_mov == LEFT) || (cur_mov == RIGHT)) {
         distance += (cur_time - prev_time)*TURN_SPEED;
     }
     if (cur_mov != prev_mov) {

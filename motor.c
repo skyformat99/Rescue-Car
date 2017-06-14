@@ -59,6 +59,7 @@ void reverse_motion() {
 
 /* This function enables pins to stop the car. */
 void stop() {
+    dir = 5;
     gpio_write(GPIO_PIN6, LOW);
     gpio_write(GPIO_PIN5, LOW);
     gpio_write(GPIO_PIN20, LOW);
